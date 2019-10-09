@@ -26,7 +26,7 @@ if [ ! -f $ENV.tfvars ]; then
   exit 0
 fi
 
-rm -rf .terraform/
+#rm -rf .terraform/
 
 terraform init \
     -backend-config="bucket=$BACKEND_BUCKET" \
@@ -37,5 +37,5 @@ terraform get .
 
 terraform $COMMAND $TOPOLOGY_TF_CLI_ARGS -var-file="$ENV.tfvars"
 
-rm -rf .terraform/
+#rm -rf .terraform/
 
