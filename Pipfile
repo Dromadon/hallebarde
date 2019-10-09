@@ -11,6 +11,7 @@ flake8 = "*"
 
 [packages]
 boto3 = "*"
+botocore = "*"
 
 [requires]
 python_version = "3.6"
