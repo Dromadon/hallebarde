@@ -33,7 +33,7 @@ resource "aws_lambda_permission" "apigw_lambda" {
   action        = "lambda:InvokeFunction"
   function_name = "${data.aws_lambda_function.lambda.function_name}"
   principal     = "apigateway.amazonaws.com"
-  qualifier     = "4"
+#  qualifier     = "4"
 
   # More: http://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-control-access-using-iam-policies-to-invoke-api.html
   # source_arn = "arn:aws:execute-api:${var.region}:${data.aws_caller_identity.current.account_id}:${aws_api_gateway_rest_api.api.id}/*/GET/resource-dev"
