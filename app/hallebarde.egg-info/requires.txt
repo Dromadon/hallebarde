@@ -1,0 +1,5 @@
+boto3
+
+[tests]
+pytest
+pytest-mock

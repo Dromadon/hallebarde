@@ -9,3 +9,4 @@
 *.tfvars
 
 *.zip
+app/package
