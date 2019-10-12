@@ -1,15 +1,18 @@
 SHELL := /bin/bash
-.PHONY: deploy package
-deploy:
+.PHONY: deploy package build_infra
+build_infra:
 	cd deploy/; \
 	./wrapper.sh apply dev s3; \
 	./wrapper.sh apply dev iam; \
+	./wrapper.sh apply dev authorizer; \
 	./wrapper.sh apply dev lambda; \
 	./wrapper.sh apply dev api-gateway; \
 
 package:
 	cd app/; \
 	rm package/*.zip; \
-	zip -j package/hello-world.zip hallebarde/hello-world.py; \
-	zip -j package/get-presigned-url.zip hallebarde/get-presigned-url.py; \
+	zip -j package/get_token.zip hallebarde/get_token.py; \
+	zip -j package/get_presigned_url.zip hallebarde/get_presigned_url.py; \
 	zip -j package/authorizer.zip hallebarde/authorizer.py; \
+
+deploy: package build_infra

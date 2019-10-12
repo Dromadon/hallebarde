@@ -17,13 +17,13 @@ resource "aws_api_gateway_integration" "token_integration" {
   http_method             = "${aws_api_gateway_method.token_get.http_method}"
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = "${data.aws_lambda_function.hello_world.invoke_arn}"
+  uri                     = "${data.aws_lambda_function.get_token.invoke_arn}"
 }
 
 resource "aws_lambda_permission" "token_lambda_permission" {
   statement_id  = "hallebarde-${var.env}-allow-get-token"
   action        = "lambda:InvokeFunction"
-  function_name = "${data.aws_lambda_function.hello_world.function_name}"
+  function_name = "${data.aws_lambda_function.get_token.function_name}"
   principal     = "apigateway.amazonaws.com"
 
   source_arn = "${aws_api_gateway_deployment.deployment.execution_arn}/*/token"

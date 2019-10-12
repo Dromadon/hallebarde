@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="acbd023a-d17d-4d38-9423-5cd324e6463a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../Pipfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Pipfile.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/get-presigned-url.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/../Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hallebarde/get-presigned-url.py" beforeDir="false" afterPath="$PROJECT_DIR$/hallebarde/get_presigned_url.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hallebarde/hello-world.py" beforeDir="false" afterPath="$PROJECT_DIR$/hallebarde/get_token.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deploy/lambda/get-s3-presigned-urls.tf" beforeDir="false" afterPath="$PROJECT_DIR$/../deploy/lambda/get-s3-presigned-urls.tf" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,19 +17,28 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/hallebarde/authorizer.py">
+        <entry file="file://$PROJECT_DIR$/tests/test_authorizer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="5" column="12" selection-start-line="5" selection-start-column="12" selection-end-line="5" selection-end-column="12" />
+            <state relative-caret-position="1008">
+              <caret line="42" column="20" selection-start-line="42" selection-start-column="20" selection-end-line="42" selection-end-column="20" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/hallebarde/get-presigned-url.py">
+        <entry file="file://$PROJECT_DIR$/hallebarde/authorizer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="3" column="27" lean-forward="true" selection-start-line="3" selection-end-line="3" selection-end-column="27" />
+            <state>
+              <caret selection-end-line="2" selection-end-column="29" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/hallebarde/get_presigned_url.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="336">
+              <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -35,20 +46,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/hallebarde/hello-world.py">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/test_get_token.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="24">
-              <caret line="1" column="32" lean-forward="true" selection-start-line="1" selection-start-column="32" selection-end-line="1" selection-end-column="32" />
+            <state relative-caret-position="360">
+              <caret line="15" column="77" selection-start-line="15" selection-start-column="77" selection-end-line="15" selection-end-column="77" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/test_authorizer.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/hallebarde/get_token.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1008">
-              <caret line="42" column="20" selection-start-line="42" selection-start-column="20" selection-end-line="42" selection-end-column="20" />
+            <state relative-caret-position="168">
+              <caret line="7" column="19" lean-forward="true" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -72,13 +83,8 @@
         <option value="$PROJECT_DIR$/hallebarde/authorizer.py" />
         <option value="$PROJECT_DIR$/hallebarde/get-presigned-url.py" />
         <option value="$PROJECT_DIR$/hallebarde/hello-world.py" />
-      </list>
-    </option>
-  </component>
-  <component name="ProjectConfigurationFiles">
-    <option name="files">
-      <list>
-        <option value="$PROJECT_DIR$/.idea/vcs.xml" />
+        <option value="$PROJECT_DIR$/hallebarde/get_token.py" />
+        <option value="$PROJECT_DIR$/tests/test_get_token.py" />
       </list>
     </option>
   </component>
@@ -88,7 +94,9 @@
     <option name="width" value="1837" />
     <option name="height" value="1044" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -120,6 +128,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/tests" />
   </component>
   <component name="RunDashboard">
@@ -134,7 +143,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python tests.pytest for test_authorizer.TestAuthorizer">
+  <component name="RunManager" selected="Python tests.pytest for test_get_token.TestToken.test_handle_should_return_a_correctly_formed_lambda_proxy_response">
     <configuration name="pytest for test_authorizer.TestAuthorizer" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="app" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -147,36 +156,6 @@
       <option name="_new_keywords" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;test_authorizer.TestAuthorizer&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="pytest for test_authorizer.TestAuthorizer.test_authorizer_should_return_a_valid_auth_response_object" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
-      <module name="app" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_authorizer.TestAuthorizer.test_authorizer_should_return_a_valid_auth_response_object&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="pytest for test_authorizer.TestAuthorizer.test_authorizer_should_return_policy_generated_based_on_authorization_token_value" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
-      <module name="app" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_keywords" value="&quot;&quot;" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_authorizer.TestAuthorizer.test_authorizer_should_return_policy_generated_based_on_authorization_token_value&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
@@ -210,13 +189,43 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
+    <configuration name="pytest for test_get_token.TestToken.test_handle_should_return_a_correctly_formed_lambda_proxy_response" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="app" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_get_token.TestToken.test_handle_should_return_a_correctly_formed_lambda_proxy_response&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest in test_get_token.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="app" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/test_get_token.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.pytest for test_get_token.TestToken.test_handle_should_return_a_correctly_formed_lambda_proxy_response" />
+        <item itemvalue="Python tests.pytest in test_get_token.py" />
         <item itemvalue="Python tests.pytest for test_authorizer.TestAuthorizer" />
         <item itemvalue="Python tests.pytest for test_authorizer.TestAuthorizer.test_validate_should_return_true_if_token_contains_valid" />
         <item itemvalue="Python tests.pytest for test_authorizer.TestAuthorizer.test_validate_should_return_false_if_token_does_not_contain_valid" />
-        <item itemvalue="Python tests.pytest for test_authorizer.TestAuthorizer.test_authorizer_should_return_policy_generated_based_on_authorization_token_value" />
-        <item itemvalue="Python tests.pytest for test_authorizer.TestAuthorizer.test_authorizer_should_return_a_valid_auth_response_object" />
       </list>
     </recent_temporary>
   </component>
@@ -234,47 +243,47 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="pytest_for_test_authorizer_TestAuthorizer_test_authorizer_should_return_a_valid_auth_response_object - 2019.10.12 at 16h 43m 15s.xml">
-      <configuration name="pytest for test_authorizer.TestAuthorizer.test_authorizer_should_return_a_valid_auth_response_object" configurationId="tests" />
+    <history-entry file="pytest_for_test_get_token_TestToken_test_handle_should_return_a_correctly_formed_lambda_proxy_response - 2019.10.12 at 22h 37m 40s.xml">
+      <configuration name="pytest for test_get_token.TestToken.test_handle_should_return_a_correctly_formed_lambda_proxy_response" configurationId="tests" />
     </history-entry>
-    <history-entry file="pytest_for_test_authorizer_TestAuthorizer_test_authorizer_should_return_a_valid_auth_response_object - 2019.10.12 at 16h 43m 24s.xml">
-      <configuration name="pytest for test_authorizer.TestAuthorizer.test_authorizer_should_return_a_valid_auth_response_object" configurationId="tests" />
+    <history-entry file="pytest_for_test_get_token_TestToken_test_handle_should_return_a_correctly_formed_lambda_proxy_response - 2019.10.12 at 22h 37m 46s.xml">
+      <configuration name="pytest for test_get_token.TestToken.test_handle_should_return_a_correctly_formed_lambda_proxy_response" configurationId="tests" />
     </history-entry>
-    <history-entry file="pytest_for_test_authorizer_TestAuthorizer_test_authorizer_should_return_a_valid_auth_response_object - 2019.10.12 at 16h 45m 59s.xml">
-      <configuration name="pytest for test_authorizer.TestAuthorizer.test_authorizer_should_return_a_valid_auth_response_object" configurationId="tests" />
+    <history-entry file="pytest_in_test_get_token_py - 2019.10.12 at 22h 37m 52s.xml">
+      <configuration name="pytest in test_get_token.py" configurationId="tests" />
     </history-entry>
-    <history-entry file="pytest_for_test_authorizer_TestAuthorizer_test_authorizer_should_return_a_valid_auth_response_object - 2019.10.12 at 16h 46m 36s.xml">
-      <configuration name="pytest for test_authorizer.TestAuthorizer.test_authorizer_should_return_a_valid_auth_response_object" configurationId="tests" />
+    <history-entry file="pytest_for_test_get_token_TestToken_test_handle_should_return_a_correctly_formed_lambda_proxy_response - 2019.10.12 at 22h 38m 15s.xml">
+      <configuration name="pytest for test_get_token.TestToken.test_handle_should_return_a_correctly_formed_lambda_proxy_response" configurationId="tests" />
     </history-entry>
-    <history-entry file="pytest_for_test_authorizer_TestAuthorizer_test_authorizer_should_return_a_valid_auth_response_object - 2019.10.12 at 16h 47m 52s.xml">
-      <configuration name="pytest for test_authorizer.TestAuthorizer.test_authorizer_should_return_a_valid_auth_response_object" configurationId="tests" />
+    <history-entry file="pytest_for_test_get_token_TestToken_test_handle_should_return_a_correctly_formed_lambda_proxy_response - 2019.10.12 at 22h 38m 42s.xml">
+      <configuration name="pytest for test_get_token.TestToken.test_handle_should_return_a_correctly_formed_lambda_proxy_response" configurationId="tests" />
     </history-entry>
-    <history-entry file="pytest_for_test_authorizer_TestAuthorizer_test_authorizer_should_return_a_valid_auth_response_object - 2019.10.12 at 16h 48m 31s.xml">
-      <configuration name="pytest for test_authorizer.TestAuthorizer.test_authorizer_should_return_a_valid_auth_response_object" configurationId="tests" />
+    <history-entry file="pytest_for_test_get_token_TestToken_test_handle_should_return_a_correctly_formed_lambda_proxy_response - 2019.10.12 at 22h 39m 38s.xml">
+      <configuration name="pytest for test_get_token.TestToken.test_handle_should_return_a_correctly_formed_lambda_proxy_response" configurationId="tests" />
     </history-entry>
-    <history-entry file="pytest_for_test_authorizer_TestAuthorizer_test_validate_should_return_false_if_token_does_not_contain_valid - 2019.10.12 at 17h 20m 24s.xml">
-      <configuration name="pytest for test_authorizer.TestAuthorizer.test_validate_should_return_false_if_token_does_not_contain_valid" configurationId="tests" />
+    <history-entry file="pytest_for_test_get_token_TestToken_test_handle_should_return_a_correctly_formed_lambda_proxy_response - 2019.10.12 at 22h 41m 06s.xml">
+      <configuration name="pytest for test_get_token.TestToken.test_handle_should_return_a_correctly_formed_lambda_proxy_response" configurationId="tests" />
     </history-entry>
-    <history-entry file="pytest_for_test_authorizer_TestAuthorizer_test_validate_should_return_true_if_token_contains_valid - 2019.10.12 at 17h 20m 30s.xml">
-      <configuration name="pytest for test_authorizer.TestAuthorizer.test_validate_should_return_true_if_token_contains_valid" configurationId="tests" />
+    <history-entry file="pytest_for_test_get_token_TestToken_test_handle_should_return_a_correctly_formed_lambda_proxy_response - 2019.10.12 at 22h 41m 20s.xml">
+      <configuration name="pytest for test_get_token.TestToken.test_handle_should_return_a_correctly_formed_lambda_proxy_response" configurationId="tests" />
     </history-entry>
-    <history-entry file="pytest_for_test_authorizer_TestAuthorizer - 2019.10.12 at 17h 20m 42s.xml">
-      <configuration name="pytest for test_authorizer.TestAuthorizer" configurationId="tests" />
+    <history-entry file="pytest_for_test_get_token_TestToken_test_handle_should_return_a_correctly_formed_lambda_proxy_response - 2019.10.12 at 22h 41m 29s.xml">
+      <configuration name="pytest for test_get_token.TestToken.test_handle_should_return_a_correctly_formed_lambda_proxy_response" configurationId="tests" />
     </history-entry>
-    <history-entry file="pytest_for_test_authorizer_TestAuthorizer - 2019.10.12 at 17h 24m 14s.xml">
-      <configuration name="pytest for test_authorizer.TestAuthorizer" configurationId="tests" />
+    <history-entry file="pytest_for_test_get_token_TestToken_test_handle_should_return_a_correctly_formed_lambda_proxy_response - 2019.10.12 at 22h 42m 41s.xml">
+      <configuration name="pytest for test_get_token.TestToken.test_handle_should_return_a_correctly_formed_lambda_proxy_response" configurationId="tests" />
     </history-entry>
   </component>
   <component name="ToolWindowManager">
     <frame x="83" y="33" width="2797" height="1767" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24990946" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24990946" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32953826" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32953826" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -289,13 +298,6 @@
     </layout>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/hallebarde/authorizer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="5" column="12" selection-start-line="5" selection-start-column="12" selection-end-line="5" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/test_authorizer.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1008">
@@ -303,20 +305,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hallebarde/get-presigned-url.py">
+    <entry file="file://$PROJECT_DIR$/hallebarde/authorizer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="3" column="27" lean-forward="true" selection-start-line="3" selection-end-line="3" selection-end-column="27" />
+        <state>
+          <caret selection-end-line="2" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hallebarde/get_presigned_url.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hallebarde/hello-world.py">
+    <entry file="file://$PROJECT_DIR$/tests/test_get_token.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
-          <caret line="1" column="32" lean-forward="true" selection-start-line="1" selection-start-column="32" selection-end-line="1" selection-end-column="32" />
+        <state relative-caret-position="360">
+          <caret line="15" column="77" selection-start-line="15" selection-start-column="77" selection-end-line="15" selection-end-column="77" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hallebarde/get_token.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="7" column="19" lean-forward="true" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="19" />
         </state>
       </provider>
     </entry>
