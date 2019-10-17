@@ -10,3 +10,6 @@
 
 *.zip
 app/package
+
+**/.idea/
+*.egg-info

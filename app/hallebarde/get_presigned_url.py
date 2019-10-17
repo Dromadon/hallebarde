@@ -1,7 +1,7 @@
 import boto3
 import json
 
-def handle(context, event):
+def handle(event, context):
   s3_client = boto3.client('s3')
   try:
       response = s3_client.generate_presigned_post("hallebarde-storage-dev",
