@@ -13,3 +13,5 @@ app/package
 
 **/.idea/
 *.egg-info
+
+.mypy_cache
