@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-.PHONY: deploy package build_infra
+.PHONY: deploy package build_infra tests
 build_infra:
 	cd deploy/; \
 	./wrapper.sh apply dev s3; \
@@ -10,9 +10,12 @@ build_infra:
 
 package:
 	cd app/; \
-	rm package/*.zip; \
+	find package -type f -name "*.zip" -exec rm {} +; \
 	zip -j package/get_token.zip hallebarde/get_token.py; \
 	zip -j package/get_presigned_url.zip hallebarde/get_presigned_url.py; \
 	zip -j package/authorizer.zip hallebarde/authorizer.py; \
 
 deploy: package build_infra
+
+tests:
+	pipenv run pytest ./;
