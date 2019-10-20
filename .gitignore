@@ -9,9 +9,9 @@
 *.tfvars
 
 *.zip
-app/package
+app/package/*
 
 **/.idea/
 *.egg-info
 
-.mypy_cache
+.mypy_cache/
