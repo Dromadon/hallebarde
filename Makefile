@@ -9,6 +9,7 @@ build_infra:
 	./wrapper.sh apply dev authorizer; \
 	./wrapper.sh apply dev lambda; \
 	./wrapper.sh apply dev api-gateway; \
+	./wrapper.sh apply dev dynamodb; \
 
 package:
 	cd app/; \
