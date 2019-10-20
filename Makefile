@@ -21,7 +21,7 @@ package:
 deploy: package build_infra
 
 tests:
-	pipenv run pytest ./;
+	pipenv run pytest -vv -p no:warnings ./;
 
 quality_checks:
 	mypy --ignore-missing-imports app/;

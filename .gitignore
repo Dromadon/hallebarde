@@ -1,4 +1,7 @@
-#  Local .terraform directories
+# IntelliJ stuff
+.idea/
+
+# Local .terraform directories
 **/.terraform/*
 
 # .tfstate files
@@ -10,6 +13,7 @@
 
 *.zip
 app/package/*
+app/build/
 
 **/.idea/
 *.egg-info
