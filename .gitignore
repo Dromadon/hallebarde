@@ -9,7 +9,7 @@
 *.tfvars
 
 *.zip
-app/package
+app/package/*
 
 **/.idea/
 *.egg-info
