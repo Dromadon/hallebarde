@@ -1,5 +1,7 @@
 SHELL := /bin/bash
-.PHONY: deploy package build_infra tests
+
+.PHONY: deploy package build_infra tests quality_checks
+
 build_infra:
 	cd deploy/; \
 	./wrapper.sh apply dev s3; \
@@ -19,3 +21,7 @@ deploy: package build_infra
 
 tests:
 	pipenv run pytest ./;
+
+quality_checks:
+	mypy --ignore-missing-imports app/;
+	flake8 --ignore=E501 app/;

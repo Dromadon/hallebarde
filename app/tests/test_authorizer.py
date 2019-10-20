@@ -1,65 +1,127 @@
+from unittest import TestCase
+
 from hallebarde.authorizer import validate, generate_policy, handle
 
-class TestAuthorizer:
 
-    def test_validate_should_return_true_if_token_contains_valid(self):
+class TestAuthorizer(TestCase):
+
+    def test_validate_should_return_true_if_token_is_valid(self):
         # When
-        response = validate('valid')
+        response: bool = validate('valid')
 
         # Then
-        assert response == True
+        assert response is True
 
-    def test_validate_should_return_false_if_token_does_not_contain_valid(self):
+    def test_validate_should_return_false_if_token_is_not_valid(self):
         # When
-        response = validate('notvalid')
+        response: bool = validate('notvalid')
 
         # Then
-        assert response == False
+        assert response is False
 
-    def test_generate_policy_should_return_a_dict_with_mandatory_keys(self):
+    def test_generate_policy_should_return_a_policy_containing_a_version_and_a_statement(self):
         # When
-        policy = generate_policy(True, 'arn:aws:fakearn')
+        policy: dict = generate_policy(is_valid=True, resource='a_resource')
 
         # Then
-        assert 'Version' in policy
-        assert 'Statement' in policy
-        assert len(policy['Statement']) == 1
-        assert 'Effect' in policy['Statement'][0]
-        assert policy['Statement'][0]['Resource'] == 'arn:aws:fakearn'
-        assert 'Action' in policy['Statement'][0]
-        assert 'Resource' in policy['Statement'][0]
+        assert 'Version' in policy.keys()
+        assert 'Statement' in policy.keys()
 
-    def test_generate_policy_should_return_an_effect_with_isvalid_nature(self):
-        # When
-        policy_true = generate_policy(True, 'arn:aws:fakearn')
-        policy_false = generate_policy(False, 'arn:aws:fakearn')
-
-        # Then
-        assert policy_true['Statement'][0]['Effect'] == 'Allow'
-        assert policy_false['Statement'][0]['Effect'] == 'Deny'
-
-    def test_authorizer_should_return_a_valid_auth_response_object(self):
+    def test_generate_policy_should_return_an_allowed_policy_on_given_resource(self):
         # Given
-        context = {}
-        event = {'authorizationToken': 'invalid', 'methodArn': 'arn:aws:fakearn'}
+        policy_validity = True
 
         # When
-        auth_response = handle(event, context)
+        policy: dict = generate_policy(policy_validity, 'arn:aws:fakearn')
 
         # Then
-        assert 'principalId' in auth_response
-        assert 'policyDocument' in auth_response
+        assert policy == {
+            'Version': '2012-10-17',
+            'Statement': [{
+                'Action': 'execute-api:Invoke',
+                'Effect': 'Allow',
+                'Resource': 'arn:aws:fakearn'
+            }]
+        }
 
-    def test_authorizer_should_return_policy_generated_based_on_authorization_token_value(self):
+    def test_generate_policy_should_return_a_denied_policy_on_a_resource_when_invalid(self):
         # Given
-        context = {}
-        event_valid = {'authorizationToken': 'valid', 'methodArn': 'arn:aws:fakearn'}
-        event_invalid = {'authorizationToken': 'invalid', 'methodArn': 'arn:aws:fakearn'}
+        policy_validity = False
 
         # When
-        auth_response_valid = handle(event_valid, context)
-        auth_response_invalid = handle(event_invalid, context)
+        policy: dict = generate_policy(policy_validity, 'arn:aws:fakearn')
 
         # Then
-        assert auth_response_valid['policyDocument']['Statement'][0]['Effect'] == 'Allow'
-        assert auth_response_invalid['policyDocument']['Statement'][0]['Effect'] == 'Deny'
+        assert policy == {
+            'Version': '2012-10-17',
+            'Statement': [{
+                'Action': 'execute-api:Invoke',
+                'Effect': 'Deny',
+                'Resource': 'arn:aws:fakearn'
+            }]
+        }
+
+    def test_authorizer_should_return_an_authentication_with_an_id_and_a_policy(self):
+        # Given
+        an_event = {'authorizationToken': 'a_token', 'methodArn': 'a_method'}
+
+        # When
+        auth_response: dict = handle(an_event, context={})
+
+        # Then
+        assert 'principalId' in auth_response.keys()
+        assert 'policyDocument' in auth_response.keys()
+
+    def test_authorizer_should_return_an_allowed_policy_based_on_authorization_token_value(self):
+        # Given
+        a_valid_event = {'authorizationToken': 'valid', 'methodArn': 'arn:aws:fakearn'}
+
+        # When
+        valid_auth_response: dict = handle(a_valid_event, context={})
+
+        # Then
+        expected_effect = 'Allow'
+        assert valid_auth_response == {
+            'principalId': 'hallebarde_authorizer',
+            'policyDocument': {
+                'Version': '2012-10-17',
+                'Statement': [{
+                    'Action': 'execute-api:Invoke',
+                    'Effect': expected_effect,
+                    'Resource': 'arn:aws:fakearn'
+                }]
+            }
+        }
+
+    def test_authorizer_should_return_a_denied_policy_when_authorization_token_value_is_invalid(self):
+        # Given
+        an_invalid_event = {'authorizationToken': 'invalid', 'methodArn': 'arn:aws:fakearn'}
+
+        # When
+        invalid_auth_response: dict = handle(an_invalid_event, context={})
+
+        # Then
+        expected_effect = 'Deny'
+        assert invalid_auth_response == {
+            'principalId': 'hallebarde_authorizer',
+            'policyDocument': {
+                'Version': '2012-10-17',
+                'Statement': [{
+                    'Action': 'execute-api:Invoke',
+                    'Effect': expected_effect,
+                    'Resource': 'arn:aws:fakearn'
+                }]
+            }
+        }
+
+    def test_handle_should_log_processing_event(self):
+        # Given
+        a_valid_event = {'authorizationToken': 'valid', 'methodArn': 'arn:aws:fakearn'}
+
+        # When
+        with self.assertLogs(level='INFO') as cm:
+            handle(a_valid_event, context={})
+
+        # Then
+        expected_log = "INFO:root:Processing event {'authorizationToken': 'valid', 'methodArn': 'arn:aws:fakearn'}"
+        assert expected_log in cm.output
