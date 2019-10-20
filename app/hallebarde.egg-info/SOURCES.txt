@@ -1,8 +1,0 @@
-setup.py
-hallebarde/__init__.py
-hallebarde/get-presigned-url.py
-hallebarde.egg-info/PKG-INFO
-hallebarde.egg-info/SOURCES.txt
-hallebarde.egg-info/dependency_links.txt
-hallebarde.egg-info/requires.txt
-hallebarde.egg-info/top_level.txt

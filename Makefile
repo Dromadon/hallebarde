@@ -1,5 +1,6 @@
 SHELL := /bin/bash
-.PHONY: deploy package build_infra
+.PHONY: deploy package build_infra quality_checks
+
 build_infra:
 	cd deploy/; \
 	./wrapper.sh apply dev s3; \
@@ -16,3 +17,7 @@ package:
 	zip -j package/authorizer.zip hallebarde/authorizer.py; \
 
 deploy: package build_infra
+
+quality_checks:
+	mypy --ignore-missing-imports app/;
+	flake8 --ignore=E501 app/;
