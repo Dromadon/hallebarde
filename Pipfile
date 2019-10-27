@@ -8,10 +8,13 @@ coverage = "*"
 pytest = "*"
 mypy = "*"
 flake8 = "*"
+docker = "*"
+pytest-env = "*"
+hallebarde = {path = "./app",editable = true}
 
 [packages]
 boto3 = "*"
 botocore = "*"
 
 [requires]
-python_version = "3.6"
+python_version = "3.7"

@@ -25,7 +25,7 @@ class TestMakePackage(TestCase):
 
     def test_make_package_should_generate_lambda_artifacts_as_unit_zip_files(self):
         # Given
-        expected_zip_artifacts = ["get_token.zip", "get_presigned_url.zip", "authorizer.zip"]
+        expected_zip_artifacts = ["hallebarde.zip"]
 
         # When
         subprocess.check_output(["make", "package"], cwd=self.path_to_makefile)

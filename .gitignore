@@ -14,6 +14,7 @@
 *.zip
 app/package/*
 app/build/
+app/dist/
 
 **/.idea/
 *.egg-info

@@ -1,17 +1,17 @@
 variable "env" {}
 
-resource "aws_dynamodb_table" "basic-dynamodb-table" {
-  name           = "hallebarde-${var.env}-database"
+resource "aws_dynamodb_table" "hallebarde-table" {
+  name           = "hallebarde-${var.env}-table"
   billing_mode   = "PAY_PER_REQUEST"
-  hash_key       = "id"
+  hash_key       = "identifier"
 
   attribute {
-    name = "id"
+    name = "identifier"
     type = "S"
   }
 
   tags = {
-    Name        = "hallebarde-${var.env}-database"
+    Name        = "hallebarde-${var.env}-table"
     Environment = "${var.env}"
   }
 }

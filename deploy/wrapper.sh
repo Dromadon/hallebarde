@@ -19,14 +19,14 @@ function main() {
   readonly BACKEND_BUCKET="hallebarde"
   readonly TOPOLOGY_TF_CLI_ARGS=""
 
-  cd "${SCRIPT_DIRECTORY}/${ENV}"
+  cd "${SCRIPT_DIRECTORY}/${KEY}"
 
-  if is_tfvars_file_absent_in "${ENV}"; then
+  if is_tfvars_file_absent_in "${KEY}" "${ENV}"; then
     echo "[*] .tfvars file is absent, quitting now..."
     exit 0
   fi
 
-  terraform_init "${BACKEND_BUCKET}" "${KEY}" "${ENV}"
+  terraform_init "${BACKEND_BUCKET}" "${ENV}" "${KEY}" 
   terraform_do "${COMMAND}" "${TOPOLOGY_TF_CLI_ARGS}" "${ENV}"
 }
 
@@ -34,20 +34,23 @@ function auto_approve_if_apply() {
   local -r command=${1}
   if [[ $command == "apply" ]]; then
     echo "${command} --auto-approve"
+  else
+    echo "${command}"
   fi
 }
 
 function remove_trailing_slash_if_any() { echo "${1%/}"; }
 
 function is_tfvars_file_absent_in() {
-  local -r env=${1}
-  [ ! -f "${SCRIPT_DIRECTORY}/${env}/.tfvars" ]
+  local -r key=${1}
+  local -r env=${2}
+  [ ! -f "${SCRIPT_DIRECTORY}/${key}/${env}.tfvars" ]
 }
 
 function terraform_init() {
   local -r backend_bucket=${1}
-  local -r key=${2}
-  local -r env=${3}
+  local -r env=${2}
+  local -r key=${3}
   echo "[*] Terraforming in $(pwd) directory..."
   terraform init \
     -backend-config="bucket=${backend_bucket}" \
@@ -62,8 +65,8 @@ function terraform_do() {
   local -r command=${1}
   local -r tf_cli_args=${2}
   local -r env=${3}
-  echo "terraform ${command} ${tf_cli_args} -var-file=\"$env/.tfvars\""
-  terraform ${command} ${tf_cli_args} -var-file="$env/.tfvars"
+  echo "terraform ${command} ${tf_cli_args} -var-file=\"$env.tfvars\""
+  terraform ${command} ${tf_cli_args} -var-file="$env.tfvars"
   echo "[*] Terraform command applied successfully..."
 }
 
