@@ -1,4 +1,5 @@
 import boto3
+
 import hallebarde.config
 from hallebarde.domain.exchange import Exchange
 

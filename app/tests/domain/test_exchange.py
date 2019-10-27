@@ -1,4 +1,5 @@
 from unittest import TestCase
+from unittest.mock import patch
 
 from hallebarde.domain.exchange import Exchange
 
@@ -14,3 +15,17 @@ class TestExchange(TestCase):
         # Then
         assert exchange1 == exchange1bis
         assert exchange1 != exchange2
+
+    @patch('hallebarde.domain.exchange.uuid4')
+    @patch('hallebarde.domain.exchange.token_urlsafe')
+    def test_an_exchange_can_be_generated_automatically(self, mock_token, mock_uuid):
+        # Given
+        mock_uuid.return_value = 'id1'
+        mock_token.side_effect = ['up1', 'dl1']
+
+        # When
+        generated_exchange = Exchange.generate()
+
+        # Then
+        expected_exchange = Exchange('id1', 'up1', 'dl1')
+        assert expected_exchange == generated_exchange
