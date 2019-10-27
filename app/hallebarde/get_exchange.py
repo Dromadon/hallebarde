@@ -1,4 +1,3 @@
-import dataclasses
 import json
 import logging
 
@@ -16,7 +15,7 @@ def handle(event: dict, context: dict) -> dict:
 
     return {
         "isBase64Encoded": False,
-        "body": json.dumps(dataclasses.asdict(exchange)),
+        "body": json.dumps(exchange.__dict__),
         "headers": None,
         "statusCode": 200
     }
