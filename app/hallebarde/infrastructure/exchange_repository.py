@@ -1,22 +1,36 @@
-import boto3
+from typing import List, Optional
 
+import boto3
+from boto3.dynamodb.table import TableResource
+from boto3.dynamodb.conditions import Attr
 import hallebarde.config
 from hallebarde.domain.exchange import Exchange
 
 
 def save(exchange: Exchange) -> None:
     table = _get_dynamodb_table()
-    table.put_item(Item={'identifier': exchange.identifier, 'upload_token': exchange.upload_token,
-                         'download_token': exchange.download_token})
+    table.put_item(Item=exchange.__dict__)
 
 
-def get(identifier: str) -> Exchange:
+def get(identifier: str) -> Optional[Exchange]:
     table = _get_dynamodb_table()
-    response = table.get_item(Key={'identifier': identifier})['Item']
-    return Exchange(response['identifier'], response['upload_token'], response['download_token'])
+    response = table.get_item(Key={'identifier': identifier})
+    return _map_exchange_from_item(response['Item']) if 'Item' in response.keys() else None
 
 
-def _get_dynamodb_table():
-    client = boto3.resource('dynamodb')
-    table = client.Table(f'hallebarde-{hallebarde.config.ENVIRONMENT}-table')
+def get_account_exchanges(email: str) -> List[Exchange]:
+    table = _get_dynamodb_table()
+    response = table.scan(
+        FilterExpression=Attr('email').eq(email)
+    )
+    return [_map_exchange_from_item(item) for item in response['Items']]
+
+
+def _get_dynamodb_table() -> TableResource:
+    resource = boto3.resource('dynamodb')
+    table = resource.Table(f'hallebarde-{hallebarde.config.ENVIRONMENT}-table')
     return table
+
+
+def _map_exchange_from_item(item):
+    return Exchange(item['identifier'], item['email'], item['upload_token'], item['download_token'])

@@ -6,11 +6,11 @@ from hallebarde.domain.exchange import Exchange
 
 class TestExchange(TestCase):
 
-    def test_exchanges_should_be_compared_on_identifier_and_tokens(self):
+    def test_exchanges_should_be_compared_on_identifier_email_and_tokens(self):
         # Given
-        exchange1 = Exchange('id1', 'up1', 'dl1')
-        exchange1bis = Exchange('id1', 'up1', 'dl1')
-        exchange2 = Exchange('id2', 'up2', 'dl2')
+        exchange1 = Exchange('id1', 'email1', 'up1', 'dl1')
+        exchange1bis = Exchange('id1', 'email1', 'up1', 'dl1')
+        exchange2 = Exchange('id2', 'email2', 'up2', 'dl2')
 
         # Then
         assert exchange1 == exchange1bis
@@ -24,8 +24,8 @@ class TestExchange(TestCase):
         mock_token.side_effect = ['up1', 'dl1']
 
         # When
-        generated_exchange = Exchange.generate()
+        generated_exchange = Exchange.generate('email@none')
 
         # Then
-        expected_exchange = Exchange('id1', 'up1', 'dl1')
+        expected_exchange = Exchange('id1', 'email@none', 'up1', 'dl1')
         assert expected_exchange == generated_exchange
