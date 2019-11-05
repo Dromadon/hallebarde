@@ -52,3 +52,15 @@ class TestExchangeRepository:
         assert actual_exchanges[0] in two_exchanges_with_same_email
         assert actual_exchanges[1] in two_exchanges_with_same_email
         assert len(actual_exchanges) == 2
+
+    @patch('hallebarde.infrastructure.exchange_repository._get_dynamodb_table')
+    def test_delete_should_delete_indicated_exchange(self, mock_get_table, an_exchange, get_dynamodb_table):
+        # Given
+        mock_get_table.return_value = get_dynamodb_table
+        exchange_repository.save(an_exchange)
+
+        # When
+        exchange_repository.delete(an_exchange.identifier)
+
+        # Then
+        assert exchange_repository.get(an_exchange.identifier) is None

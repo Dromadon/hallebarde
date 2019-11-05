@@ -26,6 +26,11 @@ def get_account_exchanges(email: str) -> List[Exchange]:
     return [_map_exchange_from_item(item) for item in response['Items']]
 
 
+def delete(identifier: str) -> None:
+    table = _get_dynamodb_table()
+    table.delete_item(Key={'identifier': identifier})
+
+
 def _get_dynamodb_table() -> TableResource:
     resource = boto3.resource('dynamodb')
     table = resource.Table(f'hallebarde-{hallebarde.config.ENVIRONMENT}-table')

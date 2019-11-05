@@ -1,8 +1,8 @@
-resource "aws_lambda_function" "create_exchange" {
+resource "aws_lambda_function" "create_token" {
   filename      = "../../app/package/hallebarde.zip"
-  function_name = "hallebarde-${var.env}-create-exchange"
+  function_name = "hallebarde-${var.env}-revoke-exchange"
   role          = "${data.aws_iam_role.role_basic.arn}"
-  handler       = "hallebarde/create_exchange.handle"
+  handler       = "hallebarde/revoke_exchange.handle"
 
   source_code_hash = "${filebase64sha256("../../app/package/hallebarde.zip")}"
 

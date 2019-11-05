@@ -4,8 +4,12 @@ data "aws_lambda_function" "s3_presigned_url" {
   function_name = "hallebarde-${var.env}-get-s3-presigned-url"
 }
 
-data "aws_lambda_function" "create_token" {
-  function_name = "hallebarde-${var.env}-create-token"
+data "aws_lambda_function" "create_exchange" {
+  function_name = "hallebarde-${var.env}-create-exchange"
+}
+
+data "aws_lambda_function" "revoke_exchange" {
+  function_name = "hallebarde-${var.env}-revoke-exchange"
 }
 
 data "aws_lambda_function" "authorizer" {
