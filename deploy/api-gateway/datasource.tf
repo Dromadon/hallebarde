@@ -1,4 +1,24 @@
 variable "env" {}
+variable "route53_zone_name" {}
+
+provider "aws" {
+  # us-east-1 instance for getting certificate
+  region = "us-east-1"
+  alias = "cert_provider"
+}
+
+data aws_acm_certificate "cert" {
+  domain      = "${var.env}.api.${var.route53_zone_name}"
+  types       = ["AMAZON_ISSUED"]
+  statuses = ["ISSUED"]
+  most_recent = true
+  provider = aws.cert_provider
+}
+
+data "aws_route53_zone" "zone" {
+  name         = var.route53_zone_name
+  private_zone = false
+}
 
 data "aws_lambda_function" "s3_presigned_url" {
   function_name = "hallebarde-${var.env}-get-s3-presigned-url"

@@ -17,7 +17,7 @@ You also need credentials for an AWS IAM account with nearly full-admin rights:
 
 ## How to use
 
-Basically, just run `make deploy` in the project directory to build the packages and deploy the infrastructure on AWS. This is (nearly) idempotent so you can deploy as many times as you want.
+Please refer to the detailed [deployment guide](docs/Deployment.md)
 
 ## Run tests
 

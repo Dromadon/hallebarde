@@ -12,7 +12,7 @@ resource "aws_iam_role" "api_authent_role" {
       "Action": "sts:AssumeRoleWithWebIdentity",
       "Condition": {
         "StringEquals": {
-          "accounts.google.com:aud": "274210205449-bend56f57m2gcu9an3q6dmv0atj3i7h1.apps.googleusercontent.com"
+          "accounts.google.com:aud": "${var.google_oidc_application}"
         }
       }
     }

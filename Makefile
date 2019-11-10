@@ -3,8 +3,10 @@ SHELL := /bin/bash
 .PHONY: deploy package build_infra tests quality_checks
 
 build_infra:
+	source conf.sh; \
 	cd deploy/; \
 	./wrapper.sh apply dev s3; \
+	./wrapper.sh apply dev domain; \
 	./wrapper.sh apply dev dynamodb; \
 	./wrapper.sh apply dev iam; \
 	./wrapper.sh apply dev authorizer; \
