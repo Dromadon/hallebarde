@@ -1,0 +1,3 @@
+[flake8]
+ignore = E501, E126
+exclude = app/tests/conftest.py, app/tests/infrastructure/conftest.py

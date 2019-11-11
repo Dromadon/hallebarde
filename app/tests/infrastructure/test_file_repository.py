@@ -37,11 +37,11 @@ class TestFileRepository:
 
     @patch('hallebarde.infrastructure.file_repository._get_s3_client')
     def test_get_file_should_return_only_the_exchange_file(self, mock_get_s3_client, an_exchange,
-                                                           an_exchange_with_different_email, get_s3_client):
+                                                           an_exchange_with_different_sub, get_s3_client):
         # Given
         mock_get_s3_client.return_value = get_s3_client
         get_s3_client.put_object(Bucket=BUCKET_NAME,
-                                 Key=f'{an_exchange_with_different_email.identifier}/another_binary_content')
+                                 Key=f'{an_exchange_with_different_sub.identifier}/another_binary_content')
         get_s3_client.put_object(Bucket=BUCKET_NAME,
                                  Key=f'{an_exchange.identifier}/a_binary_content')
 

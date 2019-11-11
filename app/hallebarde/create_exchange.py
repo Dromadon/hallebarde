@@ -3,16 +3,18 @@ import logging
 
 from hallebarde.domain.exchange import Exchange
 from hallebarde.infrastructure import exchange_repository
-from hallebarde.infrastructure.event_parser import extract_from_headers
+from hallebarde.infrastructure import event_parser
+from hallebarde import config
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 
 def handle(event: dict, context: dict) -> dict:
-    email = extract_from_headers('email', event)
+    jwt = event_parser.extract_from_headers(config.AUTHORIZATION_HEADER, event)
+    sub = event_parser.extract_sub_from_jwt(jwt)
 
-    exchange: Exchange = Exchange.generate(email)
+    exchange: Exchange = Exchange.generate(sub)
 
     exchange_repository.save(exchange)
 

@@ -8,18 +8,18 @@ class TestExchange(TestCase):
 
     def test_an_exchange_should_be_created_with_revoked_upload_set_to_false(self):
         # Given
-        exchange = Exchange('id1', 'email1', 'up1', 'dl1')
+        exchange = Exchange('id1', 'sub1', 'up1', 'dl1')
 
         # Then
         assert exchange.revoked_upload is False
 
     def test_exchanges_should_be_compared_on_identifier_email_tokens_and_revocation(self):
         # Given
-        exchange1 = Exchange(identifier='id1', email='email1', upload_token='up1', download_token='dl1',
+        exchange1 = Exchange(identifier='id1', sub='sub1', upload_token='up1', download_token='dl1',
                              revoked_upload=False)
-        exchange1bis = Exchange('id1', 'email1', 'up1', 'dl1')
-        exchange2 = Exchange('id2', 'email2', 'up2', 'dl2')
-        exchange3 = Exchange('id1', 'email1', 'up1', 'dl1', True)
+        exchange1bis = Exchange('id1', 'sub1', 'up1', 'dl1')
+        exchange2 = Exchange('id2', 'sub2', 'up2', 'dl2')
+        exchange3 = Exchange('id1', 'sub1', 'up1', 'dl1', True)
 
         # Then
         assert exchange1 == exchange1bis
@@ -34,8 +34,8 @@ class TestExchange(TestCase):
         mock_token.side_effect = ['up1', 'dl1']
 
         # When
-        generated_exchange = Exchange.generate('email@none')
+        generated_exchange = Exchange.generate('sub1')
 
         # Then
-        expected_exchange = Exchange('id1', 'email@none', 'up1', 'dl1')
+        expected_exchange = Exchange('id1', 'sub1', 'up1', 'dl1')
         assert expected_exchange == generated_exchange

@@ -1,6 +1,6 @@
 resource "aws_iam_role_policy_attachment" "lambda_s3_presigned_url_attachment" {
   role       = aws_iam_role.lambda_role_s3.name
-  policy_arn = aws_iam_policy.s3_presigned_urls_policy.arn
+  policy_arn = aws_iam_policy.s3_managing_policy.arn
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_s3_dynamodb" {

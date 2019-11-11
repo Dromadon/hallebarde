@@ -41,22 +41,30 @@ resource "aws_iam_policy" "dynamodb" {
 EOF
 }
 
-resource "aws_iam_policy" "s3_presigned_urls_policy" {
-  name        = "hallebarde-${var.env}-s3-presigned-url"
-  description = "Allows hallebarde to create s3 presigned urls in hallebarde bucket"
+resource "aws_iam_policy" "s3_managing_policy" {
+  name        = "hallebarde-${var.env}-s3-management"
+  description = "Allows hallebarde to manipulate the s3 bucket"
 
   policy = <<EOF
 {
     "Version": "2012-10-17",
     "Statement": [
-{
+        {
             "Effect": "Allow",
             "Action": [
                 "s3:*"
             ],
             "Resource": "${data.aws_s3_bucket.bucket.arn}/*"
+        },
+        {
+          "Effect": "Allow",
+          "Action": [
+              "s3:ListBucket"
+          ],
+          "Resource": "${data.aws_s3_bucket.bucket.arn}"
         }
     ]
 }
 EOF
 }
+

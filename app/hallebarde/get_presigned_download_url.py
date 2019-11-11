@@ -1,14 +1,14 @@
-import json
 import logging
-from typing import Optional
 from http import HTTPStatus
+from typing import Optional
 
 import boto3
 from botocore.exceptions import ClientError
+
 import hallebarde.config
+from hallebarde.infrastructure import event_parser
 from hallebarde.infrastructure import exchange_repository
 from hallebarde.infrastructure import file_repository
-from hallebarde.infrastructure import event_parser
 
 BUCKET_NAME = f'hallebarde-storage-{hallebarde.config.ENVIRONMENT}'
 

@@ -2,8 +2,8 @@ from unittest.mock import patch, Mock
 
 from botocore.exceptions import ClientError
 
-from hallebarde.get_presigned_download_url import handle
 import hallebarde.config
+from hallebarde.get_presigned_download_url import handle
 
 
 class TestGetDownloadPresignedUrl:
@@ -90,10 +90,12 @@ class TestGetDownloadPresignedUrl:
     @patch('hallebarde.get_presigned_download_url.boto3')
     @patch('hallebarde.get_presigned_download_url.exchange_repository')
     @patch('hallebarde.get_presigned_download_url.file_repository')
-    def test_get_presigned_download_should_return_a_500_error_if_exception_raises_in_boto(self, mock_file_repository,
-                                                                                mock_exchange_repository,
-                                                                                mock_boto3,
-                                                                                download_url_event, an_exchange):
+    def test_get_presigned_download_should_return_a_500_error_if_exception_raises_in_boto(self,
+                                                                                          mock_file_repository,
+                                                                                          mock_exchange_repository,
+                                                                                          mock_boto3,
+                                                                                          download_url_event,
+                                                                                          an_exchange):
         # Given
         mock_client = Mock()
         mock_client.generate_presigned_url.side_effect = ClientError(

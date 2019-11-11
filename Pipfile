@@ -4,17 +4,22 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+behave = "*"
 coverage = "*"
-pytest = "*"
-mypy = "*"
-flake8 = "*"
+cryptography = "*"
 docker = "*"
-pytest-env = "*"
+flake8 = "*"
 hallebarde = {path = "./app",editable = true}
+mypy = "*"
+pytest = "*"
+pytest-env = "*"
+requests = "*"
+requests_oauthlib = "*"
 
 [packages]
 boto3 = "*"
 botocore = "*"
+pyjwt = "*"
 
 [requires]
 python_version = "3.7"

@@ -36,21 +36,21 @@ class TestExchangeRepository:
 
     @patch('hallebarde.infrastructure.exchange_repository._get_dynamodb_table')
     def test_get_account_exchanges_should_return_only_account_exchanges(self, mock_get_table,
-                                                                        two_exchanges_with_same_email,
-                                                                        an_exchange_with_different_email,
+                                                                        two_exchanges_with_same_sub,
+                                                                        an_exchange_with_different_sub,
                                                                         get_dynamodb_table):
         # Given
         mock_get_table.return_value = get_dynamodb_table
-        for exchange in two_exchanges_with_same_email:
+        for exchange in two_exchanges_with_same_sub:
             exchange_repository.save(exchange)
-        exchange_repository.save(an_exchange_with_different_email)
+        exchange_repository.save(an_exchange_with_different_sub)
 
         # When
-        actual_exchanges = exchange_repository.get_account_exchanges(two_exchanges_with_same_email[0].email)
+        actual_exchanges = exchange_repository.get_account_exchanges(two_exchanges_with_same_sub[0].sub)
 
         # Then
-        assert actual_exchanges[0] in two_exchanges_with_same_email
-        assert actual_exchanges[1] in two_exchanges_with_same_email
+        assert actual_exchanges[0] in two_exchanges_with_same_sub
+        assert actual_exchanges[1] in two_exchanges_with_same_sub
         assert len(actual_exchanges) == 2
 
     @patch('hallebarde.infrastructure.exchange_repository._get_dynamodb_table')

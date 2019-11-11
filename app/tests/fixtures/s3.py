@@ -1,5 +1,3 @@
-import subprocess
-
 import boto3
 import pytest
 from docker import from_env, DockerClient

@@ -15,13 +15,21 @@ data aws_acm_certificate "cert" {
   provider = aws.cert_provider
 }
 
+data aws_cognito_user_pools "user_pool" {
+  name = "hallebarde-${var.env}"
+}
+
 data "aws_route53_zone" "zone" {
   name         = var.route53_zone_name
   private_zone = false
 }
 
-data "aws_lambda_function" "s3_upload_url" {
+data "aws_lambda_function" "s3_presigned_upload_url" {
   function_name = "hallebarde-${var.env}-get-s3-upload-url"
+}
+
+data "aws_lambda_function" "s3_presigned_download_url" {
+  function_name = "hallebarde-${var.env}-get-s3-download-url"
 }
 
 data "aws_lambda_function" "create_exchange" {

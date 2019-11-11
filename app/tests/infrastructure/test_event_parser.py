@@ -3,17 +3,17 @@ from hallebarde.infrastructure import event_parser
 
 class TestEventParser:
 
-    def test_extract_email_should_return_email_value_from_headers(self, generic_event):
+    def test_extract_jwt_should_return_jwt_token_from_headers(self, generic_event):
         # Given
-        expected_email = generic_event['headers']['email']
+        expected_email = generic_event['headers']['Authorization']
 
         # When
-        actual_email = event_parser.extract_from_headers('email', generic_event)
+        actual_email = event_parser.extract_from_headers('Authorization', generic_event)
 
         # Then
         assert actual_email == expected_email
 
-    def test_extract_identifier_should_return_identifier_value_from_headers(self, revoke_event):
+    def test_extract_header_should_return_value_from_headers(self, revoke_event):
         # Given
         expected_identifier = revoke_event['headers']['exchange_identifier']
 
@@ -23,22 +23,12 @@ class TestEventParser:
         # Then
         assert actual_identifier == expected_identifier
 
-    def test_extract_upload_token_should_return_identifier_value_from_headers(self, upload_url_event):
+    def test_extract_sub_should_return_sub_from_encoded_jwt_token(self, generic_event, event_sub):
         # Given
-        expected_token = upload_url_event['headers']['upload_token']
+        expected_sub = event_sub
 
         # When
-        actual_token = event_parser.extract_from_headers('upload_token', upload_url_event)
+        actual_sub = event_parser.extract_sub_from_jwt(generic_event['headers']['Authorization'])
 
         # Then
-        assert actual_token == expected_token
-
-    def test_extract_filename_should_return_filename_value_from_headers(self, upload_url_event):
-        # Given
-        expected_filename = upload_url_event['headers']['filename']
-
-        # When
-        actual_filename = event_parser.extract_from_headers('filename', upload_url_event)
-
-        # Then
-        assert actual_filename == expected_filename
+        assert actual_sub == expected_sub

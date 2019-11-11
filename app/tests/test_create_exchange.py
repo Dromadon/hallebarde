@@ -54,8 +54,8 @@ class TestExchange:
 
     @patch('hallebarde.create_exchange.exchange_repository')
     @patch('hallebarde.create_exchange.Exchange.generate')
-    def test_handle_should_use_email_provided_in_headers(self, mock_exchange_generate, mock_exchange_repo,
-                                                         generic_event, an_exchange):
+    def test_handle_should_use_sub_provided_in_authorization_headers(self, mock_exchange_generate, mock_exchange_repo,
+                                                                     generic_event, event_sub, an_exchange):
         # Given
         mock_exchange_generate.return_value = an_exchange
 
@@ -63,4 +63,4 @@ class TestExchange:
         handle(event=generic_event, context={})
 
         # Then
-        mock_exchange_generate.assert_called_once_with(generic_event['headers']['email'])
+        mock_exchange_generate.assert_called_once_with(event_sub)
