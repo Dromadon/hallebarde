@@ -3,12 +3,12 @@ from unittest.mock import patch, Mock
 
 from botocore.exceptions import ClientError
 
-from hallebarde.get_presigned_url import handle
+from hallebarde.get_presigned_upload_url import handle
 
 
 class TestGetPresignedUrl(TestCase):
 
-    @patch('hallebarde.get_presigned_url.boto3')
+    @patch('hallebarde.get_presigned_upload_url.boto3')
     def test_get_presigned_url_logs_an_error_when_failing(self, mock_boto3):
         # Given
         mock_client = Mock()
@@ -26,7 +26,7 @@ class TestGetPresignedUrl(TestCase):
                'the generate_presigned_post operation: Unknown' \
                in cm.output
 
-    @patch('hallebarde.get_presigned_url.boto3')
+    @patch('hallebarde.get_presigned_upload_url.boto3')
     def test_get_presigned_url_returns_a_response_containing_a_presigned_url(self, mock_boto3):
         # Given
         mock_client = Mock()
@@ -53,3 +53,21 @@ class TestGetPresignedUrl(TestCase):
             "headers": None,
             "statusCode": 200
         }
+
+    @patch('hallebarde.get_presigned_upload_url.boto3')
+    def test_get_presigned_upload_url_returns_403_if_a_file_already_exists(self, mock_boto3):
+        # Given
+        mock_client = Mock()
+        mock_client.generate_presigned_post.side_effect = ClientError(
+            error_response={'Error': {'Code': 'ResourceInUseException'}},
+            operation_name='generate_presigned_post')
+        mock_boto3.client.return_value = mock_client
+
+        # When
+        with self.assertLogs(level='ERROR') as cm:
+            handle(event={}, context={})
+
+        # Then
+        assert f'ERROR:root:An error occurred (ResourceInUseException) when calling ' \
+                   'the generate_presigned_post operation: Unknown' \
+               in cm.output

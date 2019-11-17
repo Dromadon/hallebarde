@@ -12,6 +12,6 @@ resource "aws_s3_bucket" "bucket" {
 
   tags = {
     Name        = "Hallebarde Storage for env ${var.env}"
-    Environment = "${var.env}"
+    Environment = var.env
   }
 }
