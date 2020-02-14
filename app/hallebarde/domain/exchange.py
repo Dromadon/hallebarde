@@ -8,7 +8,8 @@ class Exchange:
     download_token: str
     email: str
 
-    def __init__(self, identifier, email, upload_token, download_token):
+    def __init__(self, identifier, email, upload_token, download_token, revoked_upload=False):
+        self.revoked_upload = revoked_upload
         self.identifier = identifier
         self.email = email
         self.upload_token = upload_token
@@ -28,5 +29,6 @@ class Exchange:
             return self.identifier == other.identifier \
                 and self.upload_token == other.upload_token \
                 and self.download_token == other.download_token \
-                and self.email == self.email
+                and self.email == other.email \
+                and self.revoked_upload == other.revoked_upload
         return False

@@ -20,8 +20,8 @@ data "aws_route53_zone" "zone" {
   private_zone = false
 }
 
-data "aws_lambda_function" "s3_presigned_url" {
-  function_name = "hallebarde-${var.env}-get-s3-presigned-url"
+data "aws_lambda_function" "s3_upload_url" {
+  function_name = "hallebarde-${var.env}-get-s3-upload-url"
 }
 
 data "aws_lambda_function" "create_exchange" {

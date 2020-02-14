@@ -22,3 +22,23 @@ class TestEventParser:
 
         # Then
         assert actual_identifier == expected_identifier
+
+    def test_extract_upload_token_should_return_identifier_value_from_headers(self, upload_url_event):
+        # Given
+        expected_token = upload_url_event['headers']['upload_token']
+
+        # When
+        actual_token = event_parser.extract_upload_token_from_headers(upload_url_event)
+
+        # Then
+        assert actual_token == expected_token
+
+    def test_extract_filename_should_return_filename_value_from_headers(self, upload_url_event):
+        # Given
+        expected_filename = upload_url_event['headers']['filename']
+
+        # When
+        actual_filename = event_parser.extract_filename_from_headers(upload_url_event)
+
+        # Then
+        assert actual_filename == expected_filename

@@ -109,3 +109,16 @@ class TestExchangeRepository:
 
         # Then
         assert identifier_from_upload_token is None
+
+    @patch('hallebarde.infrastructure.exchange_repository._get_dynamodb_table')
+    def test_revoke_upload_token(self, mock_get_table, an_exchange, get_dynamodb_table):
+        # Given
+        mock_get_table.return_value = get_dynamodb_table
+        exchange_repository.save(an_exchange)
+
+        # When
+        exchange_repository.revoke_upload(an_exchange.identifier)
+        actual_exchange = exchange_repository.get(an_exchange.identifier)
+
+        # Then
+        assert actual_exchange.revoked_upload is True

@@ -6,6 +6,11 @@ from boto3.dynamodb.conditions import Attr
 import hallebarde.config
 from hallebarde.domain.exchange import Exchange
 
+import logging
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
 
 def save(exchange: Exchange) -> None:
     table = _get_dynamodb_table()
@@ -31,9 +36,20 @@ def delete(identifier: str) -> None:
     table.delete_item(Key={'identifier': identifier})
 
 
-def get_identifier_from_token(upload_token: Optional[str] = None, download_token: Optional[str] = None) -> Optional[str]:
+def revoke_upload(identifier: str) -> None:
+    table = _get_dynamodb_table()
+    table.update_item(Key={'identifier': identifier},
+                      UpdateExpression="set revoked_upload = :r",
+                      ExpressionAttributeValues={
+                          ':r': True})
+    return None
+
+
+def get_identifier_from_token(upload_token: Optional[str] = None, download_token: Optional[str] = None) -> Optional[
+    str]:
     table = _get_dynamodb_table()
     if upload_token:
+        logger.info(f'Getting identifier from upload token: {upload_token}')
         attribute = 'upload_token'
         token = upload_token
     elif download_token:
@@ -43,6 +59,7 @@ def get_identifier_from_token(upload_token: Optional[str] = None, download_token
         return None
 
     response = table.scan(FilterExpression=Attr(attribute).eq(token))
+    logger.info(f'Response from dynamodb: {response}')
 
     return _extract_identifier_from_response(response)
 
@@ -54,7 +71,7 @@ def _get_dynamodb_table() -> TableResource:
 
 
 def _map_exchange_from_item(item):
-    return Exchange(item['identifier'], item['email'], item['upload_token'], item['download_token'])
+    return Exchange(item['identifier'], item['email'], item['upload_token'], item['download_token'], item['revoked_upload'])
 
 
 def _extract_identifier_from_response(response) -> Optional[str]:
