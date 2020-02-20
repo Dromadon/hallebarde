@@ -25,7 +25,7 @@ def handle(event: dict, context: dict) -> Optional[dict]:
             response = s3_client.generate_presigned_url('get_object', Params={'Bucket': BUCKET_NAME, 'Key': key})
         except ClientError as e:
             logging.error(e)
-            return _generate_response("Internal Error", )
+            return _generate_response("Internal Error", HTTPStatus.INTERNAL_SERVER_ERROR)
         return _generate_response(response, HTTPStatus.OK)
     else:
         return _generate_response("No file associated to this token", HTTPStatus.NOT_FOUND)

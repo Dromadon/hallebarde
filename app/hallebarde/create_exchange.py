@@ -3,14 +3,14 @@ import logging
 
 from hallebarde.domain.exchange import Exchange
 from hallebarde.infrastructure import exchange_repository
-from hallebarde.infrastructure.event_parser import extract_email_from_headers
+from hallebarde.infrastructure.event_parser import extract_from_headers
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 
 def handle(event: dict, context: dict) -> dict:
-    email = extract_email_from_headers(event)
+    email = extract_from_headers('email', event)
 
     exchange: Exchange = Exchange.generate(email)
 

@@ -6,7 +6,7 @@ from hallebarde.get_presigned_upload_url import handle
 import hallebarde.config
 
 
-class TestGetPresignedUrl:
+class TestGetUploadPresignedUrl:
     BUCKET_NAME = f'hallebarde-storage-{hallebarde.config.ENVIRONMENT}'
 
     @patch('hallebarde.get_presigned_upload_url.boto3')

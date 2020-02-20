@@ -21,7 +21,7 @@ def handle(event: dict, context: dict) -> Optional[dict]:
     logger.info(f'Extracted upload_token from headers: {upload_token}')
     identifier = exchange_repository.get_identifier_from_token(upload_token=upload_token)
     logger.info(f'Queried identifier from repository: {identifier}')
-    filename = event_parser.extract_filename_from_headers(event)
+    filename = event_parser.extract_from_headers('filename', event)
     logger.info(f'Extracted filename from headers: {filename}')
 
     if _check_if_a_file_exists(identifier):

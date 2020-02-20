@@ -6,7 +6,7 @@ from hallebarde.get_presigned_download_url import handle
 import hallebarde.config
 
 
-class TestGetPresignedUrl:
+class TestGetDownloadPresignedUrl:
     BUCKET_NAME = f'hallebarde-storage-{hallebarde.config.ENVIRONMENT}'
     PRESIGNED_URL = 'https://hallebarde-storage-dev.s3.amazonaws.com/test?AWSAccessKeyId=AKEY&Signature=ASign&x-amz-security-token=Atoken&Expires=1581887681'
 
@@ -82,7 +82,7 @@ class TestGetPresignedUrl:
         # Then
         assert response_with_presigned_url == {
             "isBase64Encoded": False,
-            "body": "",
+            "body": "No file associated to this token",
             "headers": None,
             "statusCode": 404
         }
@@ -109,7 +109,7 @@ class TestGetPresignedUrl:
         # Then
         assert response_with_presigned_url == {
             "isBase64Encoded": False,
-            "body": "",
+            "body": "Internal Error",
             "headers": None,
             "statusCode": 500
         }

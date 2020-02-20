@@ -7,6 +7,7 @@ build_infra:
 	cd deploy/; \
 	./wrapper.sh apply dev s3; \
 	./wrapper.sh apply dev domain; \
+	./wrapper.sh apply dev cognito; \
 	./wrapper.sh apply dev dynamodb; \
 	./wrapper.sh apply dev iam; \
 	./wrapper.sh apply dev authorizer; \

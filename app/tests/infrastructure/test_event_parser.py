@@ -8,7 +8,7 @@ class TestEventParser:
         expected_email = generic_event['headers']['email']
 
         # When
-        actual_email = event_parser.extract_email_from_headers(generic_event)
+        actual_email = event_parser.extract_from_headers('email', generic_event)
 
         # Then
         assert actual_email == expected_email
@@ -18,7 +18,7 @@ class TestEventParser:
         expected_identifier = revoke_event['headers']['exchange_identifier']
 
         # When
-        actual_identifier = event_parser.extract_identifier_from_headers(revoke_event)
+        actual_identifier = event_parser.extract_from_headers('exchange_identifier', revoke_event)
 
         # Then
         assert actual_identifier == expected_identifier
@@ -28,7 +28,7 @@ class TestEventParser:
         expected_token = upload_url_event['headers']['upload_token']
 
         # When
-        actual_token = event_parser.extract_upload_token_from_headers(upload_url_event)
+        actual_token = event_parser.extract_from_headers('upload_token', upload_url_event)
 
         # Then
         assert actual_token == expected_token
@@ -38,7 +38,7 @@ class TestEventParser:
         expected_filename = upload_url_event['headers']['filename']
 
         # When
-        actual_filename = event_parser.extract_filename_from_headers(upload_url_event)
+        actual_filename = event_parser.extract_from_headers('filename', upload_url_event)
 
         # Then
         assert actual_filename == expected_filename
