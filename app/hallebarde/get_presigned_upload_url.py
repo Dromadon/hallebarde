@@ -1,6 +1,7 @@
 import json
 import logging
 from typing import Optional
+from http import HTTPStatus
 
 import boto3
 from botocore.exceptions import ClientError
@@ -16,7 +17,7 @@ def handle(event: dict, context: dict) -> Optional[dict]:
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
     s3_client = boto3.client('s3')
-    upload_token = event_parser.extract_upload_token_from_headers(event)
+    upload_token = event_parser.extract_from_headers('upload_token', event)
     logger.info(f'Extracted upload_token from headers: {upload_token}')
     identifier = exchange_repository.get_identifier_from_token(upload_token=upload_token)
     logger.info(f'Queried identifier from repository: {identifier}')
@@ -24,7 +25,7 @@ def handle(event: dict, context: dict) -> Optional[dict]:
     logger.info(f'Extracted filename from headers: {filename}')
 
     if _check_if_a_file_exists(identifier):
-        return _generate_response({'error': 'A file already exists for this identifier'}, 409)
+        return _generate_response({'error': 'A file already exists for this identifier'}, HTTPStatus.CONFLICT)
     else:
         try:
             response = s3_client.generate_presigned_post(
@@ -36,10 +37,10 @@ def handle(event: dict, context: dict) -> Optional[dict]:
             )
         except ClientError as e:
             logging.error(e)
-            return _generate_response({}, 500)
+            return _generate_response({}, HTTPStatus.INTERNAL_SERVER_ERROR)
 
         exchange_repository.revoke_upload(identifier)
-        return _generate_response(response, 200)
+        return _generate_response(response, HTTPStatus.OK)
 
 
 def _generate_key(identifier: str, filename: str):

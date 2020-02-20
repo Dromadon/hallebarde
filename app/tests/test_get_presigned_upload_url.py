@@ -131,36 +131,6 @@ class TestGetPresignedUrl:
     @patch('hallebarde.get_presigned_upload_url.boto3')
     @patch('hallebarde.get_presigned_upload_url.exchange_repository')
     @patch('hallebarde.get_presigned_upload_url._check_if_a_file_exists')
-    def test_get_presigned_upload_url_should_return_500_error_if_exception_raises_in_boto(self,
-                                                                                          mock_file_exists,
-                                                                                          mock_exchange_repository,
-                                                                                          mock_boto3,
-                                                                                          upload_url_event,
-                                                                                          an_exchange):
-        # Given
-        mock_client = Mock()
-        mock_client.generate_presigned_post.side_effect = ClientError(
-            error_response={'Error': {'Code': 'ResourceInUseException'}},
-            operation_name='generate_presigned_post')
-        mock_boto3.client.return_value = mock_client
-
-        mock_exchange_repository.get_identifier_from_token.return_value = an_exchange.identifier
-        mock_file_exists.return_value = False
-
-        # When
-        response = handle(event=upload_url_event, context={})
-
-        # Then
-        assert response == {
-            "isBase64Encoded": False,
-            "body": '{}',
-            "headers": None,
-            "statusCode": 500
-        }
-
-    @patch('hallebarde.get_presigned_upload_url.boto3')
-    @patch('hallebarde.get_presigned_upload_url.exchange_repository')
-    @patch('hallebarde.get_presigned_upload_url._check_if_a_file_exists')
     def test_upload_token_is_revoked_once_presigned_post_url_has_been_generated(self, mock_file_exists,
                                                                                 mock_exchange_repository, mock_boto3,
                                                                                 upload_url_event, an_exchange):
