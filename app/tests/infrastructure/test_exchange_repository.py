@@ -136,7 +136,7 @@ class TestExchangeRepository:
         assert actual_exchange == an_exchange
 
     @patch('hallebarde.infrastructure.exchange_repository._get_dynamodb_table')
-    def test_get_by_upload_token_should_return_None_if_no_exchange_exists(self, mock_get_table, get_dynamodb_table):
+    def test_get_by_upload_token_should_return_none_if_no_exchange_exists(self, mock_get_table, get_dynamodb_table):
         # Given
         mock_get_table.return_value = get_dynamodb_table
 
