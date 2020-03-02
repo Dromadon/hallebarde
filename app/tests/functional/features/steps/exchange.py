@@ -5,7 +5,7 @@ from behave import given, when, then
 from behave.runner import Context
 
 
-@given('I create a couple of exchange tokens to use the Hallebarde file transfer services')
+@given('I create an exchange')
 def given_create_an_exchange(context: Context):
     r = requests.post('https://dev.api.bda.ninja/exchanges',
                       headers={

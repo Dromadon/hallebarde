@@ -1,5 +1,7 @@
 import logging
 
+from hallebarde.infrastructure import exchange_repository
+
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
@@ -15,8 +17,9 @@ def handle(event: dict, context) -> dict:
     }
 
 
-def validate(token: str) -> bool:
-    return token == 'valid'
+def validate(upload_token: str) -> bool:
+    exchange = exchange_repository.get_by_upload_token(upload_token)
+    return not exchange.revoked_upload
 
 
 def generate_policy(is_valid: bool, resource: str) -> dict:

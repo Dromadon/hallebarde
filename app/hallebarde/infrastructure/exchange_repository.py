@@ -31,6 +31,15 @@ def get_account_exchanges(sub: str) -> List[Exchange]:
     return [_map_exchange_from_item(item) for item in response['Items']]
 
 
+def get_by_upload_token(upload_token: str) -> Optional[Exchange]:
+    table = _get_dynamodb_table()
+    response = table.scan(
+        FilterExpression=Attr(config.AUTHORIZATION_HEADER).eq(upload_token)
+    )
+items: Optional[list] = response['Items']
+return _map_exchange_from_item(items[0]) if items else None
+
+
 def delete(identifier: str) -> None:
     table = _get_dynamodb_table()
     table.delete_item(Key={'identifier': identifier})

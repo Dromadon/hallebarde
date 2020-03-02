@@ -122,3 +122,26 @@ class TestExchangeRepository:
 
         # Then
         assert actual_exchange.revoked_upload is True
+
+    @patch('hallebarde.infrastructure.exchange_repository._get_dynamodb_table')
+    def test_get_by_upload_token_should_return_exchange(self, mock_get_table, get_dynamodb_table, an_exchange):
+        # Given
+        mock_get_table.return_value = get_dynamodb_table
+        exchange_repository.save(an_exchange)
+
+        # When
+        actual_exchange = exchange_repository.get_by_upload_token(an_exchange.upload_token)
+
+        # Then
+        assert actual_exchange == an_exchange
+
+    @patch('hallebarde.infrastructure.exchange_repository._get_dynamodb_table')
+    def test_get_by_upload_token_should_return_None_if_no_exchange_exists(self, mock_get_table, get_dynamodb_table):
+        # Given
+        mock_get_table.return_value = get_dynamodb_table
+
+        # When
+        actual_exchange = exchange_repository.get_by_upload_token('anonexistingexchange')
+
+        # Then
+        assert actual_exchange is None

@@ -25,15 +25,20 @@ def revoke_event():
 
 @pytest.fixture
 def upload_url_event():
-    return {'headers': {'upload_token': '9WsE02XcMAekmjKHoj9Zq7_uVqc8dVz1Fq8czbZOq_Y', 'filename': 'a_filename'}}
+    return {'headers': {'Authorization': '9WsE02XcMAekmjKHoj9Zq7_uVqc8dVz1Fq8czbZOq_Y', 'filename': 'a_filename'}}
 
 
 @pytest.fixture
 def download_url_event():
-    return {'headers': {'download_token': '2yOdhL1NM5lyX7Mt8pHVYfkE51UkoSuGUrv6z4OT-c4'}}
+    return {'headers': {'Authorization': '2yOdhL1NM5lyX7Mt8pHVYfkE51UkoSuGUrv6z4OT-c4'}}
 
 
-def generate_jwt_token() -> str:
+@pytest.fixture
+def authorizer_event():
+    return {'authorizationToken': '2yOdhL1NM5lyX7Mt8pHVYfkE51UkoSuGUrv6z4OT-c4', 'methodArn': 'arn:aws:fakearn'}
+
+
+def generate_jwt_token() -> bytes:
     jwt_headers = {
         "kid": "PVO2XYKpHl8aWm+w0M0xz3CFKi/nJU3tGI2Gs49IAIE=",
         "alg": "RS256"

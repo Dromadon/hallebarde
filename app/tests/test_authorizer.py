@@ -1,23 +1,35 @@
-from unittest import TestCase
+from unittest.mock import patch
 
 from hallebarde.authorizer import validate, generate_policy, handle
 
 
-class TestAuthorizer(TestCase):
+class TestAuthorizer:
 
-    def test_validate_should_return_true_if_token_is_valid(self):
+    @patch('hallebarde.authorizer.exchange_repository')
+    def test_validate_should_return_true_if_an_exchange_exists_and_is_not_revoked(self, mock_exchange_repository,
+                                                                                  an_exchange, a_revoked_exchange):
+        # Given
+        mock_exchange_repository.get_by_upload_token.side_effect = [an_exchange, a_revoked_exchange]
+
         # When
-        response: bool = validate('valid')
+        validation1: bool = validate(an_exchange.upload_token)
+        validation2: bool = validate(a_revoked_exchange.upload_token)
 
         # Then
-        assert response is True
+        assert validation1 is True
+        assert validation2 is False
 
-    def test_validate_should_return_false_if_token_is_not_valid(self):
+    @patch('hallebarde.authorizer.exchange_repository')
+    def test_validate_should_return_false_if_no_exchange_returned_from_repository(self, mock_exchange_repository,
+                                                                                  an_exchange):
+        # Given
+        mock_exchange_repository.get_by_upload_token.side_effect = None
+
         # When
-        response: bool = validate('notvalid')
+        validation: bool = validate(an_exchange.upload_token)
 
         # Then
-        assert response is False
+        assert validation is False
 
     def test_generate_policy_should_return_a_policy_containing_a_version_and_a_statement(self):
         # When
@@ -61,23 +73,23 @@ class TestAuthorizer(TestCase):
             }]
         }
 
-    def test_authorizer_should_return_an_authentication_with_an_id_and_a_policy(self):
-        # Given
-        an_event = {'authorizationToken': 'a_token', 'methodArn': 'a_method'}
-
+    @patch('hallebarde.authorizer.validate')
+    def test_authorizer_should_return_an_authentication_with_an_id_and_a_policy(self, mock_validate, authorizer_event):
         # When
-        auth_response: dict = handle(an_event, context={})
+        auth_response: dict = handle(authorizer_event, context={})
 
         # Then
         assert 'principalId' in auth_response.keys()
         assert 'policyDocument' in auth_response.keys()
 
-    def test_authorizer_should_return_an_allowed_policy_based_on_authorization_token_value(self):
+    @patch('hallebarde.authorizer.validate')
+    def test_authorizer_should_return_an_allowed_policy_based_on_authorization_token_value(self, mock_validate,
+                                                                                           authorizer_event):
         # Given
-        a_valid_event = {'authorizationToken': 'valid', 'methodArn': 'arn:aws:fakearn'}
+        mock_validate.return_value = True
 
         # When
-        valid_auth_response: dict = handle(a_valid_event, context={})
+        valid_auth_response: dict = handle(authorizer_event, context={})
 
         # Then
         expected_effect = 'Allow'
@@ -93,12 +105,14 @@ class TestAuthorizer(TestCase):
             }
         }
 
-    def test_authorizer_should_return_a_denied_policy_when_authorization_token_value_is_invalid(self):
+    @patch('hallebarde.authorizer.validate')
+    def test_authorizer_should_return_a_denied_policy_when_authorization_token_value_is_invalid(self, mock_validate,
+                                                                                                authorizer_event):
         # Given
-        an_invalid_event = {'authorizationToken': 'invalid', 'methodArn': 'arn:aws:fakearn'}
+        mock_validate.return_value = False
 
         # When
-        invalid_auth_response: dict = handle(an_invalid_event, context={})
+        invalid_auth_response: dict = handle(authorizer_event, context={})
 
         # Then
         expected_effect = 'Deny'
@@ -113,15 +127,3 @@ class TestAuthorizer(TestCase):
                 }]
             }
         }
-
-    def test_handle_should_log_processing_event(self):
-        # Given
-        a_valid_event = {'authorizationToken': 'valid', 'methodArn': 'arn:aws:fakearn'}
-
-        # When
-        with self.assertLogs(level='INFO') as cm:
-            handle(a_valid_event, context={})
-
-        # Then
-        expected_log = "INFO:root:Processing event {'authorizationToken': 'valid', 'methodArn': 'arn:aws:fakearn'}"
-        assert expected_log in cm.output
