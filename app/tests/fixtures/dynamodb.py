@@ -1,41 +1,36 @@
 import boto3
 import pytest
-from docker import from_env, DockerClient
+from docker import from_env, DockerClient, errors as docker_errors
 from docker.models.containers import Container
 
-TABLE_NAME = f"hallebarde-dev-table"
-db_port: str = '8000'
+DB_PORT: str = '8000'
+TABLE_NAME: str = 'hallebarde-dev-table'
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope='module')
 def get_dynamodb_table():
     docker_client = from_env()
     dynamodb_container_name = 'dynamo-test'
+    _remove_dynamo_container_if_running(docker_client, dynamodb_container_name)
     dynamodb_container = _run_dynamodb_container(docker_client, dynamodb_container_name)
     setup_dynamodb_table()
-    yield boto3.resource('dynamodb',
-                         endpoint_url=f'http://localhost:{db_port}').Table(TABLE_NAME)
-    dynamodb_container.stop()
-    dynamodb_container.remove(v=True)
+    yield boto3.resource('dynamodb', endpoint_url=f'http://localhost:{DB_PORT}').Table(TABLE_NAME)
+    _stop_and_remove_container(dynamodb_container)
 
 
 def setup_dynamodb_table() -> None:
     try:
-        dynamodb = boto3.resource('dynamodb', endpoint_url=f'http://localhost:{db_port}')
+        dynamodb = boto3.resource('dynamodb', endpoint_url=f'http://localhost:{DB_PORT}')
         table = dynamodb.create_table(
             TableName=TABLE_NAME,
-            KeySchema=[
-                {
-                    'AttributeName': 'identifier',
-                    'KeyType': 'HASH'
-                }
-            ],
-            AttributeDefinitions=[
-                {
-                    'AttributeName': 'identifier',
-                    'AttributeType': 'S'
-                }
-            ],
+            KeySchema=[{
+                'AttributeName': 'identifier',
+                'KeyType': 'HASH'
+            }],
+            AttributeDefinitions=[{
+                'AttributeName': 'identifier',
+                'AttributeType': 'S'
+            }],
             BillingMode='PAY_PER_REQUEST'
         )
 
@@ -49,5 +44,19 @@ def _run_dynamodb_container(docker_client: DockerClient, container_name: str) ->
         image='amazon/dynamodb-local',
         name=container_name,
         detach=True,
-        ports={db_port: db_port},
+        ports={DB_PORT: DB_PORT},
     )
+
+
+def _stop_and_remove_container(container: Container) -> None:
+    container.stop()
+    container.remove(v=True)
+
+
+def _remove_dynamo_container_if_running(docker_client: DockerClient, container_name: str) -> None:
+    try:
+        potential_old_container_running = docker_client.containers.get(container_name)
+        _stop_and_remove_container(potential_old_container_running)
+        print('[*] Old container found and removed')
+    except docker_errors.NotFound:
+        print('[*] No old container running')

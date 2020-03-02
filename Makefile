@@ -27,7 +27,7 @@ package:
 	zip -r hallebarde.zip *;
 
 unit_tests:
-	pipenv run pytest -vv -p no:warnings ./;
+	AWS_DEFAULT_REGION='eu-west-1' pipenv run pytest -vv -p no:warnings ./;
 
 func_tests:
 	pipenv run behave app/tests/functional/features/;
