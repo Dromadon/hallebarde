@@ -15,6 +15,7 @@ pytest = "*"
 pytest-env = "*"
 requests = "*"
 requests_oauthlib = "*"
+importlib-metadata = "*"
 
 [packages]
 boto3 = "*"

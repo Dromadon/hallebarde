@@ -27,7 +27,8 @@ package:
 	zip -r hallebarde.zip *
 
 unit_tests:
-	AWS_DEFAULT_REGION='eu-west-1' pipenv run pytest -vv -p no:warnings ./;
+	AWS_ACCESS_KEY_ID='a_key' AWS_SECRET_ACCESS_KEY='a_secret' AWS_DEFAULT_REGION='eu-west-1' \
+	pipenv run pytest -vv -p no:warnings ./;
 
 func_tests:
 	source secret.conf.sh && \

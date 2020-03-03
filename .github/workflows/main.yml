@@ -1,0 +1,26 @@
+name: Python application
+
+on: [push]
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+      - name: Install system dependencies
+        run: |
+          sudo apt-get -q update && sudo apt-get -y -q install make && sudo rm -rf /var/lib/apt/lists/*
+          python -m pip install --quiet --upgrade pip
+          pip install --quiet pipenv==2018.11.26
+      - name: Install dependencies
+        run: pipenv install --dev
+      - name: Measure quality with mypy & flake8
+        run: make quality_checks
+      - name: Run unit tests
+        run: make unit_tests
