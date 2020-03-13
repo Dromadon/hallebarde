@@ -14,7 +14,7 @@ def when_asking_for_pre_signed_upload_url(context: Context):
             'Authorization': context.exchange['upload_token']
         })
     context.pre_signed_url_response = r
-    assert HTTPStatus.ACCEPTED == r.status_code, f'HTTP code received is {r.status_code} :('
+    assert HTTPStatus.OK == r.status_code, f'HTTP code received is {r.status_code} :('
 
 
 @then("I can upload a file")

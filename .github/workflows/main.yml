@@ -22,5 +22,7 @@ jobs:
         run: pipenv install --dev
       - name: Measure quality with mypy & flake8
         run: make quality_checks
-      - name: Run unit tests
+      - name: Run security checks with bandit & safety
+        run: make security_checks
+      - name: Run unit tests and measure code coverage
         run: make unit_tests

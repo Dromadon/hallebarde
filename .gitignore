@@ -22,3 +22,4 @@ app/dist/
 *.egg-info
 
 .mypy_cache/
+.coverage

@@ -4,6 +4,7 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+bandit = "*"
 behave = "*"
 coverage = "*"
 cryptography = "*"
@@ -12,7 +13,9 @@ flake8 = "*"
 hallebarde = {path = "./app",editable = true}
 mypy = "*"
 pytest = "*"
+pytest-cov = "*"
 pytest-env = "*"
+safety = "*"
 requests = "*"
 requests_oauthlib = "*"
 importlib-metadata = "*"
