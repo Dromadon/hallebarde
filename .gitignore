@@ -10,9 +10,6 @@ secret.conf.sh
 *.tfstate
 *.tfstate.*
 
-# .tfvars files
-*.tfvars
-
 *.zip
 app/package/*
 app/build/
