@@ -40,8 +40,12 @@ data "aws_lambda_function" "revoke_exchange" {
   function_name = "hallebarde-${var.env}-revoke-exchange"
 }
 
-data "aws_lambda_function" "authorizer" {
-  function_name = "hallebarde-${var.env}-authorizer"
+data "aws_lambda_function" "upload_authorizer" {
+  function_name = "hallebarde-${var.env}-upload-authorizer"
+}
+
+data "aws_lambda_function" "download_authorizer" {
+  function_name = "hallebarde-${var.env}-download-authorizer"
 }
 
 data "aws_lambda_function" "get_account_exchanges" {

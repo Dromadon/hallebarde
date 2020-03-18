@@ -1,22 +1,23 @@
 import json
 import logging
-from typing import Optional
 from http import HTTPStatus
+from typing import Optional
 
 import boto3
 from botocore.exceptions import ClientError
+
 import hallebarde.config
 from hallebarde import config
+from hallebarde.infrastructure import event_parser
 from hallebarde.infrastructure import exchange_repository
 from hallebarde.infrastructure import file_repository
-from hallebarde.infrastructure import event_parser
 
 BUCKET_NAME = f'hallebarde-storage-{hallebarde.config.ENVIRONMENT}'
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 
 def handle(event: dict, context: dict) -> Optional[dict]:
-    logger = logging.getLogger()
-    logger.setLevel(logging.INFO)
     s3_client = boto3.client('s3')
     upload_token = event_parser.extract_from_headers(config.AUTHORIZATION_HEADER, event)
     logger.info(f'Extracted upload_token from headers: {upload_token}')

@@ -52,7 +52,7 @@ lint: quality_checks security_checks
 .PHONY: quality_checks  ## Run quality checks (mypy, flake8)
 quality_checks:
 	pipenv run mypy --ignore-missing-imports app/ || true
-	pipenv run flake8 app/
+	pipenv run flake8 app/ --exclude app/package || true
 
 .PHONY: security_checks  ## Run security checks on python code and dependencies
 security_checks:

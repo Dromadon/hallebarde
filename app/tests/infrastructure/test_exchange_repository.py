@@ -100,7 +100,7 @@ class TestExchangeRepository:
         assert identifier_from_download_token is None
 
     @patch('hallebarde.infrastructure.exchange_repository._get_dynamodb_table')
-    def test_get_identifier_from_token_should_be_None_safe(self, mock_get_table, get_dynamodb_table):
+    def test_get_identifier_from_token_should_be_none_safe(self, mock_get_table, get_dynamodb_table):
         # Given
         mock_get_table.return_value = get_dynamodb_table
 
@@ -142,6 +142,29 @@ class TestExchangeRepository:
 
         # When
         actual_exchange = exchange_repository.get_by_upload_token('anonexistingexchange')
+
+        # Then
+        assert actual_exchange is None
+
+    @patch('hallebarde.infrastructure.exchange_repository._get_dynamodb_table')
+    def test_get_by_download_token_should_return_an_exchange(self, mock_get_table, get_dynamodb_table, an_exchange):
+        # Given
+        mock_get_table.return_value = get_dynamodb_table
+        exchange_repository.save(an_exchange)
+
+        # When
+        actual_exchange = exchange_repository.get_by_download_token(an_exchange.download_token)
+
+        # Then
+        assert actual_exchange == an_exchange
+
+    @patch('hallebarde.infrastructure.exchange_repository._get_dynamodb_table')
+    def test_get_by_download_token_should_return_none_if_no_exchange_exists(self, mock_get_table, get_dynamodb_table):
+        # Given
+        mock_get_table.return_value = get_dynamodb_table
+
+        # When
+        actual_exchange = exchange_repository.get_by_download_token('anonexistingexchange')
 
         # Then
         assert actual_exchange is None

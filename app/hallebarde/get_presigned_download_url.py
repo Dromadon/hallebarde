@@ -12,17 +12,22 @@ from hallebarde.infrastructure import exchange_repository
 from hallebarde.infrastructure import file_repository
 
 BUCKET_NAME = f'hallebarde-storage-{hallebarde.config.ENVIRONMENT}'
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 
 def handle(event: dict, context: dict) -> Optional[dict]:
     s3_client = boto3.client('s3')
-
     download_token = event_parser.extract_from_headers(config.AUTHORIZATION_HEADER, event)
+    logger.info(f'Extracted download_token from headers: {download_token}')
     identifier = exchange_repository.get_identifier_from_token(download_token=download_token)
+    logger.info(f'Queried identifier from repository: {identifier}')
     key = file_repository.get_file(identifier)
+    logger.info(f'Extracted file key from storage: {key}')
 
     if key:
         try:
+            logger.info("Generating presigned url")
             response = s3_client.generate_presigned_url('get_object', Params={'Bucket': BUCKET_NAME, 'Key': key})
         except ClientError as e:
             logging.error(e)

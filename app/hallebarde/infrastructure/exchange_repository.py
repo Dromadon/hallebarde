@@ -40,6 +40,15 @@ def get_by_upload_token(upload_token: str) -> Optional[Exchange]:
     return _map_exchange_from_item(items[0]) if items else None
 
 
+def get_by_download_token(download_token: str) -> Optional[Exchange]:
+    table = _get_dynamodb_table()
+    response = table.scan(
+        FilterExpression=Attr('download_token').eq(download_token)
+    )
+    items: Optional[list] = response['Items']
+    return _map_exchange_from_item(items[0]) if items else None
+
+
 def delete(identifier: str) -> None:
     table = _get_dynamodb_table()
     table.delete_item(Key={'identifier': identifier})

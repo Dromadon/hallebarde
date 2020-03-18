@@ -9,7 +9,7 @@ resource "aws_api_gateway_method" "get_s3_presigned_upload_url" {
   resource_id = aws_api_gateway_resource.s3_presigned_upload_url.id
   http_method = "GET"
   authorization = "CUSTOM"
-  authorizer_id = aws_api_gateway_authorizer.lambda_authorizer.id
+  authorizer_id = aws_api_gateway_authorizer.lambda_upload_authorizer.id
 }
 
 resource "aws_api_gateway_integration" "s3_presigned_upload_url" {
