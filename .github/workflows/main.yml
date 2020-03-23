@@ -4,15 +4,13 @@ on: [push]
 
 jobs:
   test:
-
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python 3.7
+      - name: Set up Python
         uses: actions/setup-python@v1
         with:
-          python-version: 3.7
+          python-version: 3.8
       - name: Install system dependencies
         run: |
           sudo apt-get -q update && sudo apt-get -y -q install make && sudo rm -rf /var/lib/apt/lists/*
@@ -21,8 +19,34 @@ jobs:
       - name: Install dependencies
         run: pipenv install --dev
       - name: Measure quality with mypy & flake8
-        run: make quality_checks
+        run: make -C app/ quality_checks
       - name: Run security checks with bandit & safety
-        run: make security_checks
+        run: make -C app/ security_checks
       - name: Run unit tests and measure code coverage
-        run: make unit_tests
+        run: make -C app/ unit_tests
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - name: Install system dependencies
+        run: |
+          sudo apt-get -q update && \
+            sudo apt-get -y -q install make unzip wget && \
+            sudo rm -rf /var/lib/apt/lists/*
+          python -m pip install --quiet --upgrade pip && \
+            pip install --quiet pipenv==2018.11.26
+          wget https://releases.hashicorp.com/terraform/0.12.23/terraform_0.12.23_linux_386.zip && \
+            unzip terraform_0.12.23_linux_386.zip && \
+            rm terraform_0.12.23_linux_386.zip && \
+            sudo mv ./terraform /usr/local/bin && \
+            terraform --version
+      - name: Package the application
+        run: make -C app/ package
+      - name: Lint infrastructure code
+        run: make -C deploy/ lint

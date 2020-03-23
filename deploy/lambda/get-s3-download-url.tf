@@ -1,12 +1,12 @@
 resource "aws_lambda_function" "s3_presigned_download_url" {
-  filename = "../../app/package/hallebarde.zip"
+  filename = var.path_to_package
   function_name = "hallebarde-${var.env}-get-s3-download-url"
   role = data.aws_iam_role.role_s3.arn
   handler = "hallebarde/get_presigned_download_url.handle"
 
-  source_code_hash = filebase64sha256("../../app/package/hallebarde.zip")
+  source_code_hash = filebase64sha256(var.path_to_package)
 
-  runtime = "python3.7"
+  runtime = var.python_runtime
   timeout = 10
 
   environment {

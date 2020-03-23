@@ -1,20 +1,15 @@
+from dataclasses import dataclass
 from secrets import token_urlsafe
 from uuid import uuid4
 
 
+@dataclass
 class Exchange:
     identifier: str
+    sub: str
     upload_token: str
     download_token: str
-    sub: str
-    revoked_upload: bool
-
-    def __init__(self, identifier: str, sub: str, upload_token: str, download_token: str, revoked_upload: bool = False):
-        self.revoked_upload = revoked_upload
-        self.identifier = identifier
-        self.sub = sub
-        self.upload_token = upload_token
-        self.download_token = download_token
+    revoked_upload: bool = False
 
     @classmethod
     def generate(cls, sub: str):
@@ -25,12 +20,3 @@ class Exchange:
             download_token=token_urlsafe(32),
             revoked_upload=False
         )
-
-    def __eq__(self, other):
-        if isinstance(self, other.__class__):
-            return self.identifier == other.identifier \
-                   and self.upload_token == other.upload_token \
-                   and self.download_token == other.download_token \
-                   and self.sub == other.sub \
-                   and self.revoked_upload == other.revoked_upload
-        return False

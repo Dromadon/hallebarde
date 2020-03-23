@@ -14,7 +14,7 @@ resource "aws_api_gateway_integration" "account_exchanges_integration" {
   integration_http_method = "POST"
   type = "AWS_PROXY"
   uri = data.aws_lambda_function.get_account_exchanges.invoke_arn
-  depends_on = ["aws_api_gateway_method.account_exchanges_get"]
+  depends_on = [aws_api_gateway_method.account_exchanges_get]
 }
 
 resource "aws_lambda_permission" "get_account_exchanges_lambda_permission" {

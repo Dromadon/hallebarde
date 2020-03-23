@@ -4,6 +4,7 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+awscli = "*"
 bandit = "*"
 behave = "*"
 coverage = "*"
@@ -11,6 +12,7 @@ cryptography = "*"
 docker = "*"
 flake8 = "*"
 hallebarde = {path = "./app",editable = true}
+importlib-metadata = "*"
 mypy = "*"
 pytest = "*"
 pytest-cov = "*"
@@ -18,7 +20,6 @@ pytest-env = "*"
 safety = "*"
 requests = "*"
 requests_oauthlib = "*"
-importlib-metadata = "*"
 
 [packages]
 boto3 = "*"
@@ -26,4 +27,4 @@ botocore = "*"
 pyjwt = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.8"

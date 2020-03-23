@@ -4,9 +4,9 @@ resource "aws_lambda_function" "download_authorizer" {
   role          = data.aws_iam_role.role.arn
   handler       = "hallebarde/download_authorizer.handle"
 
-  source_code_hash = "${filebase64sha256("../../app/package/hallebarde.zip")}"
+  source_code_hash = filebase64sha256("../../app/package/hallebarde.zip")
 
-  runtime = "python3.7"
+  runtime = "python3.8"
 
   environment {
     variables = {
