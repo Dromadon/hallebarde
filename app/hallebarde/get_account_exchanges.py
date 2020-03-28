@@ -11,7 +11,7 @@ def handle(event: dict, context: dict) -> dict:
     exchanges = exchange_repository.get_account_exchanges(sub)
     return {
         "isBase64Encoded": False,
-        "body": json.dumps([exchange.__dict__ for exchange in exchanges]),
+        "body": json.dumps([exchange.__dict__ for exchange in exchanges], default=str),
         "headers": None,
         "statusCode": 200
     }

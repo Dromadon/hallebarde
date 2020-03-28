@@ -28,7 +28,7 @@ class TestToken:
 
         # Then
         assert response['body'] == json.dumps(
-            [two_exchanges_with_same_sub[0].__dict__, two_exchanges_with_same_sub[1].__dict__])
+            [two_exchanges_with_same_sub[0].__dict__, two_exchanges_with_same_sub[1].__dict__], default=str)
 
     @patch('hallebarde.get_account_exchanges.exchange_repository')
     def test_handle_should_extract_email_from_headers(self, mock_exchange_repo, generic_event, event_sub):

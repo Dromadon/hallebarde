@@ -20,7 +20,7 @@ def handle(event: dict, context: dict) -> dict:
 
     return {
         "isBase64Encoded": False,
-        "body": json.dumps(exchange.__dict__),
+        "body": json.dumps(exchange.__dict__, default=str),
         "headers": None,
         "statusCode": 200
     }

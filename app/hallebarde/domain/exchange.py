@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from secrets import token_urlsafe
 from uuid import uuid4
-
+from datetime import datetime, timezone
 
 @dataclass
 class Exchange:
@@ -10,6 +10,7 @@ class Exchange:
     upload_token: str
     download_token: str
     revoked_upload: bool = False
+    creation_time: datetime = datetime.now(timezone.utc)
 
     @classmethod
     def generate(cls, sub: str):

@@ -1,9 +1,11 @@
 import logging
 from typing import List, Optional
+from decimal import Decimal
 
 import boto3
 from boto3.dynamodb.conditions import Attr
 from boto3.dynamodb.table import TableResource
+from datetime import datetime, timezone
 
 import hallebarde.config
 from hallebarde.domain.exchange import Exchange
@@ -14,7 +16,10 @@ logger.setLevel(logging.INFO)
 
 def save(exchange: Exchange) -> None:
     table = _get_dynamodb_table()
-    table.put_item(Item=exchange.__dict__)
+
+    item: dict = {key: value for key, value in exchange.__dict__.items() if key != 'creation_time'}
+    item['creation_time'] = Decimal(exchange.creation_time.timestamp())
+    table.put_item(Item=item)
 
 
 def get(identifier: str) -> Optional[Exchange]:
@@ -90,7 +95,7 @@ def _get_dynamodb_table() -> TableResource:
 
 def _map_exchange_from_item(item):
     return Exchange(item['identifier'], item['sub'], item['upload_token'], item['download_token'],
-                    item['revoked_upload'])
+                    item['revoked_upload'], datetime.fromtimestamp(float(item['creation_time']), timezone.utc))
 
 
 def _extract_identifier_from_response(response) -> Optional[str]:

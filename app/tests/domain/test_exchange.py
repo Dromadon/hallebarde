@@ -3,6 +3,8 @@ from unittest.mock import patch
 
 from hallebarde.domain.exchange import Exchange
 
+from datetime import datetime, timezone
+
 
 class TestExchange(TestCase):
 
@@ -13,18 +15,20 @@ class TestExchange(TestCase):
         # Then
         assert exchange.revoked_upload is False
 
-    def test_exchanges_should_be_compared_on_identifier_email_tokens_and_revocation(self):
+    def test_exchanges_should_be_compared_on_identifier_email_tokens_upload_revocation_and_creation_time(self):
         # Given
         exchange1 = Exchange(identifier='id1', sub='sub1', upload_token='up1', download_token='dl1',
-                             revoked_upload=False)
-        exchange1bis = Exchange('id1', 'sub1', 'up1', 'dl1')
-        exchange2 = Exchange('id2', 'sub2', 'up2', 'dl2')
-        exchange3 = Exchange('id1', 'sub1', 'up1', 'dl1', True)
+                             revoked_upload=False, creation_time=datetime.now())
+        exchange1bis = Exchange('id1', 'sub1', 'up1', 'dl1', False, exchange1.creation_time)
+        exchange2 = Exchange('id2', 'sub2', 'up2', 'dl2', False, exchange1.creation_time)
+        exchange3 = Exchange('id1', 'sub1', 'up1', 'dl1', True, exchange1.creation_time)
+        exchange4 = Exchange('id1', 'sub1', 'up1', 'dl1', False, datetime(2000,1,1))
 
         # Then
         assert exchange1 == exchange1bis
         assert exchange1 != exchange2
         assert exchange1 != exchange3
+        assert exchange1 != exchange4
 
     @patch('hallebarde.domain.exchange.uuid4')
     @patch('hallebarde.domain.exchange.token_urlsafe')
@@ -37,5 +41,6 @@ class TestExchange(TestCase):
         generated_exchange = Exchange.generate('sub1')
 
         # Then
-        expected_exchange = Exchange('id1', 'sub1', 'up1', 'dl1')
+        expected_exchange = Exchange('id1', 'sub1', 'up1', 'dl1', False, generated_exchange.creation_time)
         assert expected_exchange == generated_exchange
+        assert expected_exchange.creation_time < datetime.now(timezone.utc)

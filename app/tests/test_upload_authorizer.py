@@ -7,13 +7,14 @@ class TestAuthorizer:
 
     @patch('hallebarde.upload_authorizer.exchange_repository')
     def test_validate_should_return_true_if_an_exchange_exists_and_is_not_revoked(self, mock_exchange_repository,
-                                                                                  an_exchange, a_revoked_exchange):
+                                                                                  an_exchange,
+                                                                                  a_revoked_upload_exchange):
         # Given
-        mock_exchange_repository.get_by_upload_token.side_effect = [an_exchange, a_revoked_exchange]
+        mock_exchange_repository.get_by_upload_token.side_effect = [an_exchange, a_revoked_upload_exchange]
 
         # When
         validation1: bool = validate(an_exchange.upload_token)
-        validation2: bool = validate(a_revoked_exchange.upload_token)
+        validation2: bool = validate(a_revoked_upload_exchange.upload_token)
 
         # Then
         assert validation1 is True

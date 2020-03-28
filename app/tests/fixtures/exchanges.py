@@ -31,5 +31,5 @@ def two_exchanges_with_same_sub() -> List[Exchange]:
 
 
 @pytest.fixture
-def a_revoked_exchange() -> Exchange:
+def a_revoked_upload_exchange() -> Exchange:
     return exchange4

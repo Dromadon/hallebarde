@@ -34,7 +34,7 @@ class TestExchange:
         # Then
         assert response == {
             "isBase64Encoded": False,
-            "body": json.dumps(an_exchange.__dict__),
+            "body": json.dumps(an_exchange.__dict__, default=str),
             "headers": None,
             "statusCode": 200
         }
