@@ -26,12 +26,8 @@ class TestGetDownloadPresignedUrl:
         response_with_presigned_url: dict = handle(event=download_url_event, context={})
 
         # Then
-        assert response_with_presigned_url == {
-            "isBase64Encoded": False,
-            "body": self.PRESIGNED_URL,
-            "headers": None,
-            "statusCode": 200
-        }
+        assert response_with_presigned_url['body'] == self.PRESIGNED_URL
+        assert response_with_presigned_url['statusCode'] == 200
 
     @patch('hallebarde.get_presigned_download_url.boto3')
     @patch('hallebarde.get_presigned_download_url.exchange_repository')
@@ -80,12 +76,8 @@ class TestGetDownloadPresignedUrl:
         response_with_presigned_url: dict = handle(event=download_url_event, context={})
 
         # Then
-        assert response_with_presigned_url == {
-            "isBase64Encoded": False,
-            "body": "No file associated to this token",
-            "headers": None,
-            "statusCode": 404
-        }
+        assert response_with_presigned_url['body'] == "No file associated to this token"
+        assert response_with_presigned_url['statusCode'] == 404
 
     @patch('hallebarde.get_presigned_download_url.boto3')
     @patch('hallebarde.get_presigned_download_url.exchange_repository')
@@ -109,9 +101,6 @@ class TestGetDownloadPresignedUrl:
         response_with_presigned_url: dict = handle(event=download_url_event, context={})
 
         # Then
-        assert response_with_presigned_url == {
-            "isBase64Encoded": False,
-            "body": "Internal Error",
-            "headers": None,
-            "statusCode": 500
-        }
+        assert response_with_presigned_url["body"] == "Internal Error"
+        assert response_with_presigned_url["statusCode"] == 500
+

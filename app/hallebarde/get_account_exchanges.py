@@ -1,7 +1,10 @@
 import json
-from hallebarde.infrastructure import exchange_repository
-from hallebarde.infrastructure import event_parser
+from http import HTTPStatus
+
 from hallebarde import config
+from hallebarde.infrastructure import event_parser
+from hallebarde.infrastructure import exchange_repository
+from hallebarde.responses.endpoint_responses import generate_response
 
 
 def handle(event: dict, context: dict) -> dict:
@@ -9,9 +12,4 @@ def handle(event: dict, context: dict) -> dict:
     sub = event_parser.extract_sub_from_jwt(jwt_token)
 
     exchanges = exchange_repository.get_account_exchanges(sub)
-    return {
-        "isBase64Encoded": False,
-        "body": json.dumps([exchange.__dict__ for exchange in exchanges], default=str),
-        "headers": None,
-        "statusCode": 200
-    }
+    return generate_response(json.dumps([exchange.__dict__ for exchange in exchanges], default=str), HTTPStatus.OK)

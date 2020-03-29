@@ -8,14 +8,20 @@ TABLE_NAME: str = 'hallebarde-dev-table'
 
 
 @pytest.fixture(scope='module')
-def get_dynamodb_table():
+def setup_dynamodb_container(request):
     docker_client = from_env()
     dynamodb_container_name = 'dynamo-test'
     _remove_dynamo_container_if_running(docker_client, dynamodb_container_name)
     dynamodb_container = _run_dynamodb_container(docker_client, dynamodb_container_name)
+    yield
+    _stop_and_remove_container(dynamodb_container)
+
+
+@pytest.fixture(scope='class')
+def get_dynamodb_table():
+    delete_dynamodb_table()
     setup_dynamodb_table()
     yield boto3.resource('dynamodb', endpoint_url=f'http://localhost:{DB_PORT}').Table(TABLE_NAME)
-    _stop_and_remove_container(dynamodb_container)
 
 
 def setup_dynamodb_table() -> None:
@@ -27,16 +33,34 @@ def setup_dynamodb_table() -> None:
                 'AttributeName': 'identifier',
                 'KeyType': 'HASH'
             }],
-            AttributeDefinitions=[{
-                'AttributeName': 'identifier',
-                'AttributeType': 'S'
+            GlobalSecondaryIndexes=[{
+                'IndexName': 'creation_time',
+                'KeySchema': [{'AttributeName': 'creation_time',
+                               'KeyType': 'HASH'}],
+                'Projection': {
+                    'ProjectionType': 'ALL'
+                }
             }],
+            AttributeDefinitions=[
+                {'AttributeName': 'identifier',
+                 'AttributeType': 'S'},
+                {'AttributeName': 'creation_time',
+                 'AttributeType': 'N'}
+            ],
             BillingMode='PAY_PER_REQUEST'
         )
 
         table.meta.client.get_waiter('table_exists').wait(TableName=TABLE_NAME)
     except Exception as e:
         print(e)
+
+
+def delete_dynamodb_table() -> None:
+    try:
+        dynamodb = boto3.client('dynamodb', endpoint_url=f'http://localhost:{DB_PORT}')
+        dynamodb.delete_table(TableName=TABLE_NAME)
+    except dynamodb.exceptions.ResourceNotFoundException as e:
+        print("No pre-existing dynamodb table")
 
 
 def _run_dynamodb_container(docker_client: DockerClient, container_name: str) -> Container:

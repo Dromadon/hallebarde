@@ -1,3 +1,4 @@
+from datetime import datetime, timezone, timedelta
 from typing import List
 
 import pytest
@@ -33,3 +34,13 @@ def two_exchanges_with_same_sub() -> List[Exchange]:
 @pytest.fixture
 def a_revoked_upload_exchange() -> Exchange:
     return exchange4
+
+
+@pytest.fixture
+def generate_old_exchange():
+    def _generate_exchange(days_before):
+        exchange = Exchange.generate('a_test_sub')
+        exchange.creation_time = datetime.now(timezone.utc) - timedelta(days=days_before)
+        return exchange
+
+    return _generate_exchange

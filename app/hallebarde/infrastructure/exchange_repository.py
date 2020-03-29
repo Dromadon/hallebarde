@@ -1,11 +1,11 @@
 import logging
-from typing import List, Optional
+from datetime import datetime, timezone
 from decimal import Decimal
+from typing import List, Optional
 
 import boto3
 from boto3.dynamodb.conditions import Attr
 from boto3.dynamodb.table import TableResource
-from datetime import datetime, timezone
 
 import hallebarde.config
 from hallebarde.domain.exchange import Exchange
@@ -54,6 +54,24 @@ def get_by_download_token(download_token: str) -> Optional[Exchange]:
     return _map_exchange_from_item(items[0]) if items else None
 
 
+def get_before_time(creation_time: datetime) -> List[Exchange]:
+    timestamp = Decimal(creation_time.timestamp())
+    table = _get_dynamodb_table()
+
+    scan_params = {'FilterExpression': Attr('creation_time').lte(timestamp),
+                   'Limit': 50}
+
+    response = table.scan(**scan_params)
+    items = response['Items']
+
+    while 'LastEvaluatedKey' in response.keys():
+        scan_params['ExclusiveStartKey'] = response['LastEvaluatedKey']
+        response = table.scan(**scan_params)
+        items += response['Items']
+
+    return [_map_exchange_from_item(item) for item in items]
+
+
 def delete(identifier: str) -> None:
     table = _get_dynamodb_table()
     table.delete_item(Key={'identifier': identifier})
@@ -76,13 +94,14 @@ def get_identifier_from_token(upload_token: Optional[str] = None,
         attribute = 'upload_token'
         token = upload_token
     elif download_token:
+        logger.info(f'Getting identifier from download token: {upload_token}')
         attribute = 'download_token'
         token = download_token
     else:
         return None
 
     response = table.scan(FilterExpression=Attr(attribute).eq(token))
-    logger.info(f'Response from dynamodb: {response}')
+    logger.debug(f'Response from dynamodb: {response}')
 
     return _extract_identifier_from_response(response)
 

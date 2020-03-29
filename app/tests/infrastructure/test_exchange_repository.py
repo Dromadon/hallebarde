@@ -1,3 +1,4 @@
+from datetime import datetime, timezone, timedelta
 from unittest.mock import patch
 
 import pytest
@@ -7,8 +8,9 @@ from hallebarde.infrastructure import exchange_repository
 TABLE_NAME = f'hallebarde-dev-table'
 
 
+@pytest.mark.usefixtures("setup_dynamodb_container")
 @pytest.mark.usefixtures("get_dynamodb_table")
-class TestExchangeRepository:
+class TestExchangeRepositoryBasics:
 
     @patch('hallebarde.infrastructure.exchange_repository._get_dynamodb_table')
     def test_save_should_create_readable_item(self, mock_get_table, an_exchange, get_dynamodb_table):
@@ -65,6 +67,10 @@ class TestExchangeRepository:
         # Then
         assert exchange_repository.get(an_exchange.identifier) is None
 
+
+@pytest.mark.usefixtures("setup_dynamodb_container")
+@pytest.mark.usefixtures("get_dynamodb_table")
+class TestExchangeRepositoryGettingByToken:
     @patch('hallebarde.infrastructure.exchange_repository._get_dynamodb_table')
     def test_get_identifier_from_token_should_return_identifier_associated_with_given_token(self, mock_get_table,
                                                                                             an_exchange,
@@ -168,3 +174,43 @@ class TestExchangeRepository:
 
         # Then
         assert actual_exchange is None
+
+
+@pytest.mark.usefixtures("setup_dynamodb_container")
+@pytest.mark.usefixtures("get_dynamodb_table")
+class TestExchangeRepositoryActionsBasedOnTime:
+    @patch('hallebarde.infrastructure.exchange_repository._get_dynamodb_table')
+    def test_get_before_time_should_return_only_exchanges_created_before_this_time(self, mock_get_table,
+                                                                                   get_dynamodb_table, an_exchange,
+                                                                                   generate_old_exchange):
+        # Given
+        mock_get_table.return_value = get_dynamodb_table
+        time_before = datetime.now(timezone.utc) - timedelta(days=2)
+
+        old_exchange = generate_old_exchange(days_before=3)
+        exchange_repository.save(an_exchange)
+        exchange_repository.save(old_exchange)
+
+        # When
+        actual_exchanges = exchange_repository.get_before_time(time_before)
+
+        # Then
+        assert actual_exchanges == [old_exchange]
+
+    @patch('hallebarde.infrastructure.exchange_repository._get_dynamodb_table')
+    def test_get_before_time_should_handle_cases_with_more_exchanges_to_retrieve_than_limit_in_dynamodb(self,
+                                                                                                        mock_get_table,
+                                                                                                        get_dynamodb_table,
+                                                                                                        generate_old_exchange):
+        # Given
+        mock_get_table.return_value = get_dynamodb_table
+        week_before = datetime.now(timezone.utc) - timedelta(days=7)
+
+        for i in range(120):
+            exchange_repository.save(generate_old_exchange(days_before=8))
+
+        # When
+        actual_exchanges = exchange_repository.get_before_time(week_before)
+
+        # Then
+        assert len(actual_exchanges) == 120

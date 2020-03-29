@@ -1,9 +1,11 @@
 import json
 import logging
+from http import HTTPStatus
 
 from hallebarde.domain.exchange import Exchange
 from hallebarde.infrastructure import exchange_repository
 from hallebarde.infrastructure import event_parser
+from hallebarde.responses.endpoint_responses import generate_response
 from hallebarde import config
 
 logger = logging.getLogger()
@@ -18,9 +20,4 @@ def handle(event: dict, context: dict) -> dict:
 
     exchange_repository.save(exchange)
 
-    return {
-        "isBase64Encoded": False,
-        "body": json.dumps(exchange.__dict__, default=str),
-        "headers": None,
-        "statusCode": 200
-    }
+    return generate_response(json.dumps(exchange.__dict__, default=str), HTTPStatus.OK)

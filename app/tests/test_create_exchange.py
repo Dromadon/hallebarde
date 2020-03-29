@@ -7,20 +7,6 @@ from hallebarde.create_exchange import handle
 class TestExchange:
 
     @patch('hallebarde.create_exchange.exchange_repository')
-    def test_handle_should_return_a_correctly_formed_lambda_proxy_response(self, mock_exchange_repo, generic_event):
-        # Given
-        mock_exchange_repo.save.return_value = None
-
-        # When
-        response: dict = handle(event=generic_event, context={})
-
-        # Then
-        assert isinstance(response['isBase64Encoded'], bool)
-        assert isinstance(response['body'], str) or response['body'] is None
-        assert isinstance(response['headers'], dict) or response['headers'] is None
-        assert isinstance(response['statusCode'], int)
-
-    @patch('hallebarde.create_exchange.exchange_repository')
     @patch('hallebarde.create_exchange.Exchange')
     def test_handle_should_return_upload_and_download_token_in_its_body(self, mock_exchange,
                                                                         mock_exchange_repo, generic_event,
@@ -32,12 +18,8 @@ class TestExchange:
         response: dict = handle(event=generic_event, context={})
 
         # Then
-        assert response == {
-            "isBase64Encoded": False,
-            "body": json.dumps(an_exchange.__dict__, default=str),
-            "headers": None,
-            "statusCode": 200
-        }
+        assert response["body"] == json.dumps(an_exchange.__dict__, default=str)
+        assert response["statusCode"] == 200
 
     @patch('hallebarde.create_exchange.exchange_repository')
     @patch('hallebarde.create_exchange.Exchange')

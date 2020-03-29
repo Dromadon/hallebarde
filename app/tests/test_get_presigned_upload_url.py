@@ -1,9 +1,10 @@
+import json
 from unittest.mock import patch, Mock
 
 from botocore.exceptions import ClientError
 
-from hallebarde.get_presigned_upload_url import handle
 import hallebarde.config
+from hallebarde.get_presigned_upload_url import handle
 
 
 class TestGetUploadPresignedUrl:
@@ -17,7 +18,7 @@ class TestGetUploadPresignedUrl:
                                                                               upload_url_event, an_exchange):
         # Given
         mock_client = Mock()
-        mock_client.generate_presigned_post.return_value = {
+        presigned_url = {
             'url': 'https://mybucket.s3.amazonaws.com',
             'fields': {
                 'acl': 'public-read',
@@ -26,6 +27,7 @@ class TestGetUploadPresignedUrl:
                 'policy': 'mybase64 encoded policy'
             }
         }
+        mock_client.generate_presigned_post.return_value = presigned_url
         mock_boto3.client.return_value = mock_client
 
         mock_exchange_repository.get_identifier_from_token.return_value = an_exchange.identifier
@@ -35,14 +37,9 @@ class TestGetUploadPresignedUrl:
         response_with_presigned_url: dict = handle(event=upload_url_event, context={})
 
         # Then
-        assert response_with_presigned_url == {
-            "isBase64Encoded": False,
-            "body": '{"url": "https://mybucket.s3.amazonaws.com", '
-                    '"fields": {"acl": "public-read", "key": "mykey", '
-                    '"signature": "mysignature", "policy": "mybase64 encoded policy"}}',
-            "headers": None,
-            "statusCode": 200
-        }
+        assert response_with_presigned_url['body'] == json.dumps(presigned_url)
+        assert response_with_presigned_url['statusCode'] == 200
+
 
     @patch('hallebarde.get_presigned_upload_url.boto3')
     @patch('hallebarde.get_presigned_upload_url.exchange_repository')
@@ -91,12 +88,8 @@ class TestGetUploadPresignedUrl:
         response = handle(event=upload_url_event, context={})
 
         # Then
-        assert response == {
-            "isBase64Encoded": False,
-            "body": '{"error": "A file already exists for this identifier"}',
-            "headers": None,
-            "statusCode": 409
-        }
+        assert response["body"] == 'A file already exists for this identifier'
+        assert response["statusCode"] == 409
 
     @patch('hallebarde.get_presigned_upload_url.boto3')
     @patch('hallebarde.get_presigned_upload_url.exchange_repository')
@@ -121,12 +114,8 @@ class TestGetUploadPresignedUrl:
         response = handle(event=upload_url_event, context={})
 
         # Then
-        assert response == {
-            "isBase64Encoded": False,
-            "body": '{}',
-            "headers": None,
-            "statusCode": 500
-        }
+        assert response["body"] == 'Internal error'
+        assert response["statusCode"] == 500
 
     @patch('hallebarde.get_presigned_upload_url.boto3')
     @patch('hallebarde.get_presigned_upload_url.exchange_repository')
