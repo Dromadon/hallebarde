@@ -4,7 +4,7 @@ SHELL := /bin/bash
 
 .DEFAULT_GOAL: help
 
-TERRAFORM_RESOURCES=s3 domain cognito dynamodb iam authorizer lambda api-gateway
+TERRAFORM_RESOURCES=s3 domain cognito dynamodb iam authorizer lambda api-gateway scheduling
 
 .PHONY: help
 help:

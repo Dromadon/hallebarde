@@ -33,19 +33,9 @@ def setup_dynamodb_table() -> None:
                 'AttributeName': 'identifier',
                 'KeyType': 'HASH'
             }],
-            GlobalSecondaryIndexes=[{
-                'IndexName': 'creation_time',
-                'KeySchema': [{'AttributeName': 'creation_time',
-                               'KeyType': 'HASH'}],
-                'Projection': {
-                    'ProjectionType': 'ALL'
-                }
-            }],
             AttributeDefinitions=[
                 {'AttributeName': 'identifier',
-                 'AttributeType': 'S'},
-                {'AttributeName': 'creation_time',
-                 'AttributeType': 'N'}
+                 'AttributeType': 'S'}
             ],
             BillingMode='PAY_PER_REQUEST'
         )
@@ -59,7 +49,7 @@ def delete_dynamodb_table() -> None:
     try:
         dynamodb = boto3.client('dynamodb', endpoint_url=f'http://localhost:{DB_PORT}')
         dynamodb.delete_table(TableName=TABLE_NAME)
-    except dynamodb.exceptions.ResourceNotFoundException as e:
+    except dynamodb.exceptions.ResourceNotFoundException:
         print("No pre-existing dynamodb table")
 
 

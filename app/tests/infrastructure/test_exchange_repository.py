@@ -206,7 +206,7 @@ class TestExchangeRepositoryActionsBasedOnTime:
         mock_get_table.return_value = get_dynamodb_table
         week_before = datetime.now(timezone.utc) - timedelta(days=7)
 
-        for i in range(120):
+        for _ in range(120):
             exchange_repository.save(generate_old_exchange(days_before=8))
 
         # When

@@ -3,7 +3,7 @@ from http import HTTPStatus
 
 from hallebarde.infrastructure import exchange_repository
 from hallebarde.infrastructure import file_repository
-from hallebarde.usecases import revoke_exchange_command_handler
+from hallebarde.usecases import revoke_an_exchange
 from hallebarde.infrastructure import event_parser
 from hallebarde import config
 from hallebarde.responses.endpoint_responses import generate_response
@@ -22,6 +22,6 @@ def handle(event: dict, context: dict) -> dict:
     if exchange.sub != event_sub:
         return generate_response("Forbidden", HTTPStatus.FORBIDDEN)
     else:
-        revoke_exchange_command_handler.handle(identifier)
+        revoke_an_exchange.revoke_an_exchange_by_its_identifier(identifier)
         return generate_response("Exchange revoked", HTTPStatus.OK)
 

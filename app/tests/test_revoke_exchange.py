@@ -7,8 +7,8 @@ from hallebarde.revoke_exchange import handle
 class TestRevokeExchange:
 
     @patch('hallebarde.revoke_exchange.exchange_repository')
-    @patch('hallebarde.revoke_exchange.revoke_exchange_command_handler')
-    def test_handle_should_return_a_200_status(self, revoke_exchange_command_handler, mock_exchange_repo,
+    @patch('hallebarde.revoke_exchange.revoke_an_exchange')
+    def test_handle_should_return_a_200_status(self, revoke_an_exchange, mock_exchange_repo,
                                                    revoke_event,
                                                    event_sub):
         # Given
@@ -22,8 +22,8 @@ class TestRevokeExchange:
         assert response['statusCode'] == 200
 
     @patch('hallebarde.revoke_exchange.exchange_repository')
-    @patch('hallebarde.revoke_exchange.revoke_exchange_command_handler')
-    def test_handle_should_launch_a_revoke_command(self, revoke_exchange_command_handler, mock_exchange_repo,
+    @patch('hallebarde.revoke_exchange.revoke_an_exchange')
+    def test_handle_should_launch_a_revoke_command(self, revoke_an_exchange, mock_exchange_repo,
                                                    revoke_event,
                                                    event_sub):
         # Given
@@ -33,11 +33,11 @@ class TestRevokeExchange:
         handle(event=revoke_event, context={})
 
         # Then
-        revoke_exchange_command_handler.handle.assert_called_once_with(revoke_event['headers']['exchange_identifier'])
+        revoke_an_exchange.revoke_an_exchange_by_its_identifier.assert_called_once_with(revoke_event['headers']['exchange_identifier'])
 
     @patch('hallebarde.revoke_exchange.exchange_repository')
-    @patch('hallebarde.revoke_exchange.revoke_exchange_command_handler')
-    def test_handle_should_return_403_if_jwt_sub_does_not_match_exchange_sub(self, revoke_exchange_command_handler,
+    @patch('hallebarde.revoke_exchange.revoke_an_exchange')
+    def test_handle_should_return_403_if_jwt_sub_does_not_match_exchange_sub(self, revoke_an_exchange,
                                                                              mock_exchange_repo, revoke_event,
                                                                              an_exchange):
         # Given

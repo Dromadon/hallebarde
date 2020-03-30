@@ -7,8 +7,8 @@ from hallebarde.revoke_exchange import handle
 class TestRevokeExpiredExchanges:
 
     @patch('hallebarde.revoke_exchange.exchange_repository')
-    @patch('hallebarde.revoke_exchange.revoke_exchange_command_handler')
-    def test_handle_should_launch_revoke_command_for_each_expired_exchange(self, mock_revoke_exchange_command_handler,
+    @patch('hallebarde.revoke_exchange.revoke_an_exchange')
+    def test_handle_should_launch_revoke_command_for_each_expired_exchange(self, mock_revoke_an_exchange,
                                                                            mock_exchange_repo, generic_event,
                                                                            an_exchange, an_exchange_with_different_sub):
         # Given
@@ -19,4 +19,4 @@ class TestRevokeExpiredExchanges:
         handle(generic_event, context={})
 
         # Then
-        assert mock_revoke_exchange_command_handler.handle.has_calls(expected_args_list)
+        assert mock_revoke_an_exchange.revoke_an_exchange_by_its_identifier.has_calls(expected_args_list)

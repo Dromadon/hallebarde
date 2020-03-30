@@ -46,9 +46,9 @@ def handle(event: dict, context: dict) -> Optional[dict]:
         return generate_response(json.dumps(response), HTTPStatus.OK)
 
 
-def _generate_key(identifier: str, filename: str):
+def _generate_key(identifier: str, filename: str) -> str:
     return f'{identifier}/{filename}'
 
 
-def _check_if_a_file_exists(identifier: str):
+def _check_if_a_file_exists(identifier: str) -> bool:
     return True if file_repository.get_file(identifier) is not None else False

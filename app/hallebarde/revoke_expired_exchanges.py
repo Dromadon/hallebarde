@@ -4,7 +4,7 @@ from datetime import datetime, timezone, timedelta
 
 from hallebarde import config
 from hallebarde.infrastructure import exchange_repository
-from hallebarde.usecases import revoke_exchange_command_handler
+from hallebarde.usecases import revoke_an_exchange
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -18,7 +18,7 @@ def handle(event: dict, context: dict) -> None:
 
     for e in exchanges_to_revoke:
         logger.log(f'Revoking exchange {e.identifier}')
-        revoke_exchange_command_handler.handle(e.identifier)
+        revoke_an_exchange.revoke_an_exchange_by_its_identifier(e.identifier)
 
 
 
