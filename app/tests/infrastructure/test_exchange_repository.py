@@ -180,6 +180,21 @@ class TestExchangeRepositoryGettingByToken:
 @pytest.mark.usefixtures("get_dynamodb_table")
 class TestExchangeRepositoryActionsBasedOnTime:
     @patch('hallebarde.infrastructure.exchange_repository._get_dynamodb_table')
+    def test_get_before_time_should_return_empty_list_if_no_exchanges_exist_before_this_time(self,
+                                                                                                        mock_get_table,
+                                                                                                        get_dynamodb_table,
+                                                                                                        generate_old_exchange):
+        # Given
+        mock_get_table.return_value = get_dynamodb_table
+        week_before = datetime.now(timezone.utc) - timedelta(days=7)
+
+        # When
+        actual_exchanges = exchange_repository.get_before_time(week_before)
+
+        # Then
+        assert actual_exchanges == []
+
+    @patch('hallebarde.infrastructure.exchange_repository._get_dynamodb_table')
     def test_get_before_time_should_return_only_exchanges_created_before_this_time(self, mock_get_table,
                                                                                    get_dynamodb_table, an_exchange,
                                                                                    generate_old_exchange):
@@ -197,20 +212,4 @@ class TestExchangeRepositoryActionsBasedOnTime:
         # Then
         assert actual_exchanges == [old_exchange]
 
-    @patch('hallebarde.infrastructure.exchange_repository._get_dynamodb_table')
-    def test_get_before_time_should_handle_cases_with_more_exchanges_to_retrieve_than_limit_in_dynamodb(self,
-                                                                                                        mock_get_table,
-                                                                                                        get_dynamodb_table,
-                                                                                                        generate_old_exchange):
-        # Given
-        mock_get_table.return_value = get_dynamodb_table
-        week_before = datetime.now(timezone.utc) - timedelta(days=7)
 
-        for _ in range(120):
-            exchange_repository.save(generate_old_exchange(days_before=8))
-
-        # When
-        actual_exchanges = exchange_repository.get_before_time(week_before)
-
-        # Then
-        assert len(actual_exchanges) == 120

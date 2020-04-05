@@ -58,17 +58,10 @@ def get_before_time(creation_time: datetime) -> List[Exchange]:
     timestamp = Decimal(creation_time.timestamp())
     table = _get_dynamodb_table()
 
-    scan_params = {'FilterExpression': Attr('creation_time').lte(timestamp),
-                   'Limit': 50}
-
-    response = table.scan(**scan_params)
+    response = table.scan(
+        FilterExpression=Attr('creation_time').lte(timestamp)
+    )
     items = response['Items']
-
-    while 'LastEvaluatedKey' in response.keys():
-        scan_params['ExclusiveStartKey'] = response['LastEvaluatedKey']
-        response = table.scan(**scan_params)
-        items += response['Items']
-
     return [_map_exchange_from_item(item) for item in items]
 
 
