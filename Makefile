@@ -12,6 +12,7 @@ help:
 .PHONY: deploy  ## Package the app, build the infrastructure and deploy the app in it as a lambda function
 deploy: package
 	$(MAKE) --directory deploy/ build_infra
+	$(MAKE) --directory deploy/ deploy_website
 
 .PHONY: package  ## Package the app in zip format
 package:

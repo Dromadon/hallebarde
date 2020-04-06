@@ -25,6 +25,10 @@ build_infra:
 		./wrapper.sh apply dev $$resource
 	done;
 
+.PHONY: deploy_website
+deploy_website:
+	aws s3 cp ../website/index.html s3://hallebarde-dev-website --region eu-west-1
+
 lint:
 	for resource in $(TERRAFORM_RESOURCES)
 	do
