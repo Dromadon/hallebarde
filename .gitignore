@@ -18,6 +18,10 @@ app/dist/
 **/.idea/
 *.egg-info
 
+__pycache__/
 .mypy_cache/
 
 .coverage
+
+# frontend
+hallebarde-frontend/node_modules/
