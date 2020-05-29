@@ -1,7 +1,7 @@
 ⚔️ Hallebarde ⚔️
 ===============
 
-![Python application](https://github.com/Dromadon/hallebarde/workflows/Python%20application/badge.svg)
+![Python application](https://github.com/Dromadon/hallebarde/workflows/hallebarde%20application/badge.svg)
 
 Token-based file uploader on AWS
 

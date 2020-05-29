@@ -1,9 +1,9 @@
-name: Python application
+name: hallebarde application
 
 on: [push]
 
 jobs:
-  test:
+  tests-backend:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -25,8 +25,23 @@ jobs:
       - name: Run unit tests and measure code coverage
         run: make -C app/ unit_tests
 
+  tests-frontend:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [8.x, 10.x, 12.x]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm --version
+      - run: make -C hallebarde-frontend/ install-dependencies
+      - run: make -C hallebarde-frontend/ tests-with-coverage
+
   build:
-    needs: test
+    needs: tests-backend
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

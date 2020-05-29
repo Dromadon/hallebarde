@@ -1,0 +1,28 @@
+{
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#082455",
+        "activityBar.foreground": "#fff",
+        "activityBar.activeBorder": "#00A9C5",
+        "activityBar.inactiveForeground": "#fff",
+        "activityBarBadge.background": "#945bc4",
+        "activityBarBadge.foreground": "#e7e7e7",
+        "titleBar.activeBackground": "#42b883",
+        "titleBar.inactiveBackground": "#F8950099",
+        "titleBar.activeForeground": "#15202b",
+        "titleBar.inactiveForeground": "#15202b99",
+        "statusBar.background": "#00A9C5",
+        "statusBarItem.hoverBackground": "#3690a0",
+        "statusBar.foreground": "#fff",
+        "panel.border": "#00A9C5",
+        // "gitDecoration.addedResourceForeground": "#0af80a",
+        // "gitDecoration.ignoredResourceForeground": "#708083",
+        // "gitDecoration.modifiedResourceForeground": "#9D80DA",
+        // "sideBar.border": "#fff",
+        // "sideBar.background": "#097285",
+        // "sideBar.foreground": "#FFF",
+        // "sideBarSectionHeader.background": "#082455",
+        "editorGroup.border": "#b99866",
+        "tab.activeBorder": "#F89500"
+    },
+    "mypy.executable": "/Users/mehdi.houacine/.local/share/virtualenvs/hallebarde-zoSS-zzr/bin/mypyls",
+}

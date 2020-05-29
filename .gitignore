@@ -2,6 +2,10 @@ secret.conf.sh
 
 # IntelliJ stuff
 .idea/
+app/.vscode/settings.json
+.vscode/
+.devcontainer/
+node_modules/
 
 # Local .terraform directories
 **/.terraform/*
@@ -25,3 +29,4 @@ __pycache__/
 
 # frontend
 hallebarde-frontend/node_modules/
+hallebarde-frontend/src/tests/mockServerToTestUpload/node_modules/
