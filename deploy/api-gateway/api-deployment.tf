@@ -1,5 +1,5 @@
 resource "aws_api_gateway_rest_api" "api" {
-  name = "hallebarde-${var.env}"
+  name = "${var.application_name}-${var.env}"
   description = "This is my API for demonstration purposes"
 }
 
@@ -7,8 +7,10 @@ resource "aws_api_gateway_deployment" "deployment" {
   depends_on = [
     aws_api_gateway_integration.s3_presigned_download_url,
     aws_api_gateway_integration.s3_presigned_upload_url,
+    aws_api_gateway_integration.revoke_exchange_integration,
     aws_api_gateway_integration.create_exchange,
-    aws_api_gateway_integration.account_exchanges_integration]
+    aws_api_gateway_integration.account_exchanges_integration
+  ]
 
   rest_api_id = aws_api_gateway_rest_api.api.id
   stage_name = var.env

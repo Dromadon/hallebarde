@@ -3,7 +3,7 @@ from typing import List, Optional
 import boto3
 import hallebarde.config
 
-BUCKET_NAME = f'hallebarde-storage-{hallebarde.config.ENVIRONMENT}'
+BUCKET_NAME = f'{hallebarde.config.APPLICATION_NAME}-{hallebarde.config.ENVIRONMENT}-storage'
 
 
 def get_file(identifier: str) -> Optional[str]:

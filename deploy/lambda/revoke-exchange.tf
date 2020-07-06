@@ -1,6 +1,6 @@
-resource "aws_lambda_function" "create_token" {
+resource "aws_lambda_function" "revoke_exchange" {
   filename = var.path_to_package
-  function_name = "hallebarde-${var.env}-revoke-exchange"
+  function_name = "${var.application_name}-${var.env}-revoke-exchange"
   role = data.aws_iam_role.role_s3.arn
   handler = "hallebarde/revoke_exchange.handle"
 
@@ -11,6 +11,7 @@ resource "aws_lambda_function" "create_token" {
   environment {
     variables = {
       ENVIRONMENT = var.env
+      APPLICATION_NAME = var.application_name
     }
   }
 }

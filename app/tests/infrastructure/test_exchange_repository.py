@@ -5,8 +5,6 @@ import pytest
 
 from hallebarde.infrastructure import exchange_repository
 
-TABLE_NAME = f'hallebarde-dev-table'
-
 
 @pytest.mark.usefixtures("setup_dynamodb_container")
 @pytest.mark.usefixtures("get_dynamodb_table")
@@ -181,9 +179,9 @@ class TestExchangeRepositoryGettingByToken:
 class TestExchangeRepositoryActionsBasedOnTime:
     @patch('hallebarde.infrastructure.exchange_repository._get_dynamodb_table')
     def test_get_before_time_should_return_empty_list_if_no_exchanges_exist_before_this_time(self,
-                                                                                                        mock_get_table,
-                                                                                                        get_dynamodb_table,
-                                                                                                        generate_old_exchange):
+                                                                                             mock_get_table,
+                                                                                             get_dynamodb_table,
+                                                                                             generate_old_exchange):
         # Given
         mock_get_table.return_value = get_dynamodb_table
         week_before = datetime.now(timezone.utc) - timedelta(days=7)
@@ -211,5 +209,3 @@ class TestExchangeRepositoryActionsBasedOnTime:
 
         # Then
         assert actual_exchanges == [old_exchange]
-
-

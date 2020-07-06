@@ -2,9 +2,10 @@ import boto3
 import pytest
 from docker import from_env, DockerClient, errors as docker_errors
 from docker.models.containers import Container
+import hallebarde.config
 
 DB_PORT: str = '8000'
-TABLE_NAME: str = 'hallebarde-dev-table'
+TABLE_NAME: str = f'{hallebarde.config.APPLICATION_NAME}-{hallebarde.config.ENVIRONMENT}-table'
 
 
 @pytest.fixture(scope='module')

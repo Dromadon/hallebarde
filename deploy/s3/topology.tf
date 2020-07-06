@@ -1,7 +1,10 @@
 variable "env" {}
+variable "application_name" {}
+
+data "aws_caller_identity" "current" {}
 
 resource "aws_s3_bucket" "bucket" {
-  bucket = "hallebarde-storage-${var.env}"
+  bucket = "${var.application_name}-${var.env}-storage"
   acl    = "private"
 
   cors_rule {
@@ -11,7 +14,7 @@ resource "aws_s3_bucket" "bucket" {
   }
 
   tags = {
-    Name        = "Hallebarde Storage for env ${var.env}"
+    Name        = "${var.application_name} storage for env ${var.env}"
     Environment = var.env
   }
 }

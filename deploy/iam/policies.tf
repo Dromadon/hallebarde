@@ -22,8 +22,8 @@ EOF
 }
 
 resource "aws_iam_policy" "dynamodb" {
-  name        = "hallebarde-${var.env}-dynamodb"
-  description = "Allows hallebarde to access dynamodb"
+  name        = "${var.application_name}-${var.env}-dynamodb"
+  description = "Allows ${var.application_name} to access dynamodb"
 
   policy = <<EOF
 {
@@ -42,8 +42,8 @@ EOF
 }
 
 resource "aws_iam_policy" "s3_managing_policy" {
-  name        = "hallebarde-${var.env}-s3-management"
-  description = "Allows hallebarde to manipulate the s3 bucket"
+  name        = "${var.application_name}-${var.env}-s3-management"
+  description = "Allows ${var.application_name} to manipulate the s3 bucket"
 
   policy = <<EOF
 {

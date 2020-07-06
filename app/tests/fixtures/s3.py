@@ -3,8 +3,9 @@ import pytest
 from docker import from_env, DockerClient, errors as docker_errors
 from docker.models.containers import Container
 from docker.models.volumes import Volume
+import hallebarde.config
 
-BUCKET_NAME: str = 'hallebarde-storage-dev'
+BUCKET_NAME: str = f'{hallebarde.config.APPLICATION_NAME}-{hallebarde.config.ENVIRONMENT}-storage'
 DB_PORT: str = '9000'
 MINIO_ACCESS_KEY: str = 'test_access_key'
 MINIO_SECRET_KEY: str = 'test_secret_key'

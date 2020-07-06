@@ -5,8 +5,8 @@ from behave.runner import Context
 from oauthlib.oauth2 import BackendApplicationClient
 from requests_oauthlib import OAuth2Session
 
-client_id = os.environ.get('CLIENT_ID')
-client_secret = os.environ.get('CLIENT_SECRET')
+client_id = os.environ.get('end2end_client_id')
+client_secret = os.environ.get('end2end_client_secret')
 
 
 @given('I am authenticated to use the Hallebarde file transfer services')

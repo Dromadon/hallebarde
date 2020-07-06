@@ -4,7 +4,7 @@ resource "aws_api_gateway_method" "account_exchanges_get" {
   http_method = "GET"
   authorization = "COGNITO_USER_POOLS"
   authorizer_id = aws_api_gateway_authorizer.cognito_authorizer.id
-  authorization_scopes = ["hallebarde-${var.env}/api"]
+  authorization_scopes = ["${var.application_name}-${var.env}/api"]
 }
 
 resource "aws_api_gateway_integration" "account_exchanges_integration" {
@@ -18,7 +18,7 @@ resource "aws_api_gateway_integration" "account_exchanges_integration" {
 }
 
 resource "aws_lambda_permission" "get_account_exchanges_lambda_permission" {
-  statement_id = "hallebarde-${var.env}-allow-get_account_exchanges"
+  statement_id = "${var.application_name}-${var.env}-allow-get_account_exchanges"
   action = "lambda:InvokeFunction"
   function_name = data.aws_lambda_function.get_account_exchanges.function_name
   principal = "apigateway.amazonaws.com"

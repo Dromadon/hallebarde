@@ -12,14 +12,16 @@ help:
 	@grep -E '^\.PHONY: [a-zA-Z_-]+ .*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = "(: |##)"}; {printf "\033[36m%-30s\033[0m %s\n", $$2, $$3}'
 
 plan_infra:
-	source conf.sh
+	source ../conf.sh
+	source ../secret.conf.sh
 	for resource in $(TERRAFORM_RESOURCES)
 	do
 		./wrapper.sh plan dev $$resource
 	done;
 
 build_infra:
-	source conf.sh
+	source ../conf.sh
+	source ../secret.conf.sh
 	for resource in $(TERRAFORM_RESOURCES)
 	do
 		./wrapper.sh apply dev $$resource

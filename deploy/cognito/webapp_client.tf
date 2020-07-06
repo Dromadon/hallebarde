@@ -8,7 +8,7 @@ resource "aws_cognito_user_pool_client" "webapp" {
     "implicit"]
   allowed_oauth_flows_user_pool_client = true
   allowed_oauth_scopes = [
-    "hallebarde-${var.env}/api"]
+    "${var.application_name}-${var.env}/api"]
   callback_urls = [
     "http://localhost:3000/callback"]
 }

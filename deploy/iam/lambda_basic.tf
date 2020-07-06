@@ -9,7 +9,7 @@ resource "aws_iam_role_policy_attachment" "lambda_basic_logging" {
 }
 
 resource "aws_iam_role" "lambda_role_basic" {
-  name = "hallebarde-${var.env}-lambda-basic"
+  name = "${var.application_name}-${var.env}-lambda-basic"
 
   assume_role_policy = <<EOF
 {

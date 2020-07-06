@@ -10,7 +10,6 @@ function main() {
   set -o errtrace
 
   export BACKEND_BUCKET="hallebarde"
-  export TF_LOG=DEBUG
   export TF_LOG_PATH=/tmp/terraform_log
 
   readonly COMMAND=$(auto_approve_if_apply "${1}")
@@ -65,8 +64,13 @@ function terraform_do() {
   local -r command=${1}
   local -r tf_cli_args=${2}
   local -r env=${3}
-  echo "terraform ${command} ${tf_cli_args} -var-file=\"$env.tfvars\""
-  terraform ${command} ${tf_cli_args} -var-file="$env.tfvars"
+  if [[ ${command} == "output" ]]; then
+    echo "terraform ${command} ${tf_cli_args}"
+    terraform ${command} ${tf_cli_args}
+  else
+    echo "terraform ${command} ${tf_cli_args} -var-file=\"$env.tfvars\""
+    terraform ${command} ${tf_cli_args} -var-file="$env.tfvars"
+  fi
   echo "[*] Terraform command applied successfully..."
 }
 

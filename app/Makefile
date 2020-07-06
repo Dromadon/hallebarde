@@ -25,7 +25,7 @@ unit_tests:
 
 .PHONY: func_tests  ## Run functional tests with behave
 func_tests:
-	source secret.conf.sh && \
+	source get-test-client-secrets.sh && \
 	AWS_DEFAULT_REGION=eu-west-1 pipenv run behave tests/functional/features/
 
 .PHONY: lint  ## Run quality and security checks
@@ -40,5 +40,4 @@ quality_checks:
 security_checks:
 	pipenv run bandit --recursive hallebarde/ --exclude tests/
 	pipenv run safety check --full-report
-
 

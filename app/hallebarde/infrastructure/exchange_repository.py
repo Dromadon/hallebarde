@@ -101,7 +101,7 @@ def get_identifier_from_token(upload_token: Optional[str] = None,
 
 def _get_dynamodb_table() -> TableResource:
     resource = boto3.resource('dynamodb')
-    table = resource.Table(f'hallebarde-{hallebarde.config.ENVIRONMENT}-table')
+    table = resource.Table(f'{hallebarde.config.APPLICATION_NAME}-{hallebarde.config.ENVIRONMENT}-table')
     return table
 
 

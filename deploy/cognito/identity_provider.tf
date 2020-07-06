@@ -1,3 +1,6 @@
+variable "google_oidc_application_client_id" {}
+variable "google_oidc_application_client_secret" {}
+
 resource "aws_cognito_identity_provider" "google" {
   user_pool_id  = aws_cognito_user_pool.users.id
   provider_name = "Google"
@@ -5,8 +8,8 @@ resource "aws_cognito_identity_provider" "google" {
 
   provider_details = {
     authorize_scopes = "email openid"
-    client_id        = "your client_id"
-    client_secret    = "your client_secret"
+    client_id        = var.google_oidc_application_client_id
+    client_secret    = var.google_oidc_application_client_secret
   }
 
   attribute_mapping = {

@@ -1,5 +1,5 @@
 resource "aws_api_gateway_authorizer" "lambda_download_authorizer" {
-  name = "hallebarde-${var.env}-download-token-authorizer"
+  name = "${var.application_name}-${var.env}-download-token-authorizer"
   rest_api_id = aws_api_gateway_rest_api.api.id
   type = "TOKEN"
   authorizer_result_ttl_in_seconds = 0
@@ -9,7 +9,7 @@ resource "aws_api_gateway_authorizer" "lambda_download_authorizer" {
 }
 
 resource "aws_iam_role" "download_authorizer_invocation_role" {
-  name = "hallebarde-${var.env}-download-authorizer-invocation"
+  name = "${var.application_name}-${var.env}-download-authorizer-invocation"
   path = "/"
 
   assume_role_policy = <<EOF
@@ -30,7 +30,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "download_authorizer_invocation_policy" {
-  name = "hallebarde-${var.env}-download-authorizer-invocation"
+  name = "${var.application_name}-${var.env}-download-authorizer-invocation"
   role = aws_iam_role.download_authorizer_invocation_role.id
 
   policy = <<EOF

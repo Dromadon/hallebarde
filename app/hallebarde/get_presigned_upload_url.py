@@ -13,7 +13,7 @@ from hallebarde.infrastructure import exchange_repository
 from hallebarde.infrastructure import file_repository
 from hallebarde.responses.endpoint_responses import generate_response
 
-BUCKET_NAME = f'hallebarde-storage-{hallebarde.config.ENVIRONMENT}'
+BUCKET_NAME = f'hallebarde-{hallebarde.config.ENVIRONMENT}-storage'
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 

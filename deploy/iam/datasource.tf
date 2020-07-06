@@ -1,10 +1,11 @@
 variable "env" {}
-variable "google_oidc_application" {}
+variable "google_oidc_application_client_id" {}
+variable "application_name" {}
 
 data "aws_dynamodb_table" "table" {
-  name = "hallebarde-${var.env}-table"
+  name = "${var.application_name}-${var.env}-table"
 }
 
 data "aws_s3_bucket" "bucket" {
-  bucket = "hallebarde-storage-${var.env}"
+  bucket = "${var.application_name}-${var.env}-storage"
 }

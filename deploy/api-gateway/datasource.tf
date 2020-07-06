@@ -1,5 +1,6 @@
 variable "env" {}
 variable "route53_zone_name" {}
+variable "application_name" {}
 
 provider "aws" {
   # us-east-1 instance for getting certificate
@@ -16,7 +17,7 @@ data aws_acm_certificate "cert" {
 }
 
 data aws_cognito_user_pools "user_pool" {
-  name = "hallebarde-${var.env}"
+  name = "${var.application_name}-${var.env}"
 }
 
 data "aws_route53_zone" "zone" {
@@ -25,31 +26,31 @@ data "aws_route53_zone" "zone" {
 }
 
 data "aws_lambda_function" "s3_presigned_upload_url" {
-  function_name = "hallebarde-${var.env}-get-s3-upload-url"
+  function_name = "${var.application_name}-${var.env}-get-s3-upload-url"
 }
 
 data "aws_lambda_function" "s3_presigned_download_url" {
-  function_name = "hallebarde-${var.env}-get-s3-download-url"
+  function_name = "${var.application_name}-${var.env}-get-s3-download-url"
 }
 
 data "aws_lambda_function" "create_exchange" {
-  function_name = "hallebarde-${var.env}-create-exchange"
+  function_name = "${var.application_name}-${var.env}-create-exchange"
 }
 
 data "aws_lambda_function" "revoke_exchange" {
-  function_name = "hallebarde-${var.env}-revoke-exchange"
+  function_name = "${var.application_name}-${var.env}-revoke-exchange"
 }
 
 data "aws_lambda_function" "upload_authorizer" {
-  function_name = "hallebarde-${var.env}-upload-authorizer"
+  function_name = "${var.application_name}-${var.env}-upload-authorizer"
 }
 
 data "aws_lambda_function" "download_authorizer" {
-  function_name = "hallebarde-${var.env}-download-authorizer"
+  function_name = "${var.application_name}-${var.env}-download-authorizer"
 }
 
 data "aws_lambda_function" "get_account_exchanges" {
-  function_name = "hallebarde-${var.env}-get-account-exchanges"
+  function_name = "${var.application_name}-${var.env}-get-account-exchanges"
 }
 
 data "aws_caller_identity" "current" {}

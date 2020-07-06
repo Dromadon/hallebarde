@@ -1,7 +1,8 @@
 variable env {}
+variable "application_name" {}
 
 resource "aws_cognito_user_pool" "users" {
-  name = "hallebarde-${var.env}"
+  name = "${var.application_name}-${var.env}"
 
   admin_create_user_config {
     allow_admin_create_user_only = true
@@ -13,7 +14,7 @@ resource "aws_cognito_user_pool" "users" {
     attribute_data_type = "String"
     name = "email"
     required = true
-    mutable = false
+    mutable = true
 
     string_attribute_constraints {
       min_length = 1

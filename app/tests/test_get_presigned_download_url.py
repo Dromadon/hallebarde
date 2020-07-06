@@ -7,7 +7,7 @@ from hallebarde.get_presigned_download_url import handle
 
 
 class TestGetDownloadPresignedUrl:
-    BUCKET_NAME = f'hallebarde-storage-{hallebarde.config.ENVIRONMENT}'
+    BUCKET_NAME = f'hallebarde-{hallebarde.config.ENVIRONMENT}-storage'
     PRESIGNED_URL = 'https://hallebarde-storage-dev.s3.amazonaws.com/test?AWSAccessKeyId=AKEY&Signature=ASign&x-amz-security-token=Atoken&Expires=1581887681'
 
     @patch('hallebarde.get_presigned_download_url.boto3')

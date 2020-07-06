@@ -4,7 +4,7 @@ resource "aws_api_gateway_method" "revoke_exchange_delete" {
   http_method   = "DELETE"
   authorization = "COGNITO_USER_POOLS"
   authorizer_id = aws_api_gateway_authorizer.cognito_authorizer.id
-  authorization_scopes = ["hallebarde-${var.env}/api"]
+  authorization_scopes = ["${var.application_name}-${var.env}/api"]
 }
 
 resource "aws_api_gateway_integration" "revoke_exchange_integration" {
@@ -17,7 +17,7 @@ resource "aws_api_gateway_integration" "revoke_exchange_integration" {
 }
 
 resource "aws_lambda_permission" "revoke_exchange_lambda_permission" {
-  statement_id  = "hallebarde-${var.env}-allow-revoke-exchange"
+  statement_id  = "${var.application_name}-${var.env}-allow-revoke-exchange"
   action        = "lambda:InvokeFunction"
   function_name = data.aws_lambda_function.revoke_exchange.function_name
   principal     = "apigateway.amazonaws.com"

@@ -14,7 +14,7 @@ resource "aws_iam_role_policy_attachment" "lambda_s3_logging" {
 }
 
 resource "aws_iam_role" "lambda_role_s3" {
-  name = "hallebarde-${var.env}-lambda-s3"
+  name = "${var.application_name}-${var.env}-lambda-s3"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",

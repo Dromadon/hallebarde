@@ -23,7 +23,7 @@ resource "aws_api_gateway_integration" "create_exchange" {
 }
 
 resource "aws_lambda_permission" "create_exchange_lambda_permission" {
-  statement_id = "hallebarde-${var.env}-allow-create-exchange"
+  statement_id = "${var.application_name}-${var.env}-allow-create-exchange"
   action = "lambda:InvokeFunction"
   function_name = data.aws_lambda_function.create_exchange.function_name
   principal = "apigateway.amazonaws.com"

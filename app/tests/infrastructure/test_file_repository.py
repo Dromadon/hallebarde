@@ -6,7 +6,7 @@ import pytest
 from hallebarde.infrastructure import file_repository
 import hallebarde.config
 
-BUCKET_NAME = f'hallebarde-storage-{hallebarde.config.ENVIRONMENT}'
+BUCKET_NAME = f'{hallebarde.config.APPLICATION_NAME}-{hallebarde.config.ENVIRONMENT}-storage'
 
 
 @pytest.mark.usefixtures("get_s3_client")

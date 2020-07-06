@@ -22,7 +22,7 @@ resource "aws_api_gateway_integration" "s3_presigned_download_url" {
 }
 
 resource "aws_lambda_permission" "s3_presigned_download_url_lambda_permission" {
-  statement_id = "hallebarde-${var.env}-allow-get-s3-presigned-download-url"
+  statement_id = "${var.application_name}-${var.env}-allow-get-s3-presigned-download-url"
   action = "lambda:InvokeFunction"
   function_name = data.aws_lambda_function.s3_presigned_download_url.function_name
   principal = "apigateway.amazonaws.com"
