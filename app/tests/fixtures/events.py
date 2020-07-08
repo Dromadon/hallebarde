@@ -25,7 +25,8 @@ def revoke_event():
 
 @pytest.fixture
 def upload_url_event():
-    return {'headers': {'Authorization': '9WsE02XcMAekmjKHoj9Zq7_uVqc8dVz1Fq8czbZOq_Y', 'filename': 'a_filename'}}
+    return {'headers': {'Authorization': '9WsE02XcMAekmjKHoj9Zq7_uVqc8dVz1Fq8czbZOq_Y'},
+            'queryStringParameters': {'filename': 'a_filename'}}
 
 
 @pytest.fixture

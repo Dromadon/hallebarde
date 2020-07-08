@@ -31,3 +31,19 @@ resource "aws_lambda_permission" "create_exchange_lambda_permission" {
   source_arn = "${aws_api_gateway_deployment.deployment.execution_arn}/*/exchanges"
 }
 
+module "cors" {
+  source = "squidfunk/api-gateway-enable-cors/aws"
+  version = "0.3.1"
+
+  api_id = aws_api_gateway_rest_api.api.id
+  api_resource_id = aws_api_gateway_resource.exchanges.id
+
+  allow_methods = [
+    "GET",
+    "POST",
+    "DELETE"
+  ]
+
+  allow_origin = "*"
+}
+

@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import uploadFileIcon from "../assets/Picto_Cloud.png"
 import successfulUploadFileIcon from "../assets/Picto_DockSheet_valid.png"
 import LinkWithCopyToClipboardButton from "./LinkWithCopyToClipboardButton"
+import { Auth } from "aws-amplify";
 
 export default class UploadAFileModal extends Component {
 
@@ -13,8 +14,23 @@ export default class UploadAFileModal extends Component {
             modalIsActive: false,
             selectedFile: null,
             fileState: "UNSELECTED",
-            uploadingProgress: 0
+            uploadingProgress: 0,
+            jwtToken: ""
         }
+    }
+
+    componentDidMount() {
+        Auth.currentSession()
+            .then((data) => {
+                console.log(data)
+                this.setState({ user: { email: data.getIdToken().payload.email } })
+                this.setState({ jwtToken: data.getAccessToken().jwtToken })
+                console.log(this.state.user)
+            }
+            ).catch((e) => {
+                console.log(e)
+            })
+
     }
 
     toggleModal() { this.setState({ modalIsActive: !this.state.modalIsActive }) }
@@ -24,7 +40,7 @@ export default class UploadAFileModal extends Component {
         this.setState({ fileState: "SELECTED" })
     }
 
-    onFileUpload = () => {
+    onFileUpload = async () => {
 
         if (this.state.selectedFile) {
             this.setState({ fileState: "UPLOADING" })
@@ -36,20 +52,50 @@ export default class UploadAFileModal extends Component {
                 }
             }
 
-            const formData = new FormData();
-            formData.append(
-                "file-to-share",
-                this.state.selectedFile,
-                this.state.selectedFile.name
-            );
+            // create exchange
+            await axios({
+                method: 'post',
+                url: 'https://dev.api.bda.ninja/exchanges',
+                headers: { Authorization: this.state.jwtToken }
+            }).then(response => {
+                this.setState({ uploadToken: response.data.upload_token })
+                this.setState({ downloadToken: response.data.download_token })
+            }).catch((error) => console.log(error))
 
-            axios.post("http://localhost:8000/upload", formData, config)
-                .then(response => {
-                    this.setState({
-                        fileState: "UPLOADED",
-                        selectedFile: null
-                    }) })
-                .catch(error => { console.log(error)})
+            // get presigned upload url
+            console.log(this.state.uploadToken)
+            await axios({
+                method: 'get',
+                url: `https://dev.api.bda.ninja/s3_presigned_upload_url?filename=${this.state.selectedFile.name}`,
+                headers: { Authorization: this.state.uploadToken }
+            }).then(response => {
+                this.setState({ uploadUrl: response.data.url })
+                this.setState({ uploadUrlFields: response.data.fields })
+            }).catch((error) => console.log(error))
+
+
+            // post presigned upload url with file
+            const formData = new FormData();
+            for (const field in this.state.uploadUrlFields) {
+                formData.append(field, this.state.uploadUrlFields[field])
+            }
+            formData.append(
+                "file",
+                this.state.selectedFile
+                )
+
+            axios({
+                method: 'post',
+                url: this.state.uploadUrl,
+                data: formData,
+                config
+            }).then(response => {
+                this.setState({
+                    fileState: "UPLOADED",
+                    selectedFile: null
+                })
+            })
+                .catch(error => { console.log(error) })
 
         }
     }
@@ -72,7 +118,7 @@ export default class UploadAFileModal extends Component {
     }
 
     modalMenu = () => {
-        if(this.state.fileState === "UNSELECTED") {
+        if (this.state.fileState === "UNSELECTED") {
             return (
                 <section>
                     <figure className="image container is-128x128">
@@ -83,7 +129,7 @@ export default class UploadAFileModal extends Component {
                         Attention, vous ne pouvez téléverser qu'un seul fichier, <br />
                         donc favorisez le <code>zip</code> si vous avez plus d'un fichier
                     </p>
-                    <br/>
+                    <br />
                     {this.uploadFileButton("Sélectionnez votre fichier")}
                 </section>
             )
@@ -97,12 +143,12 @@ export default class UploadAFileModal extends Component {
                     <br />
                     <output className="has-text-weight-medium">{this.state.selectedFile.name} sélectionné</output>
                     <p>ou</p>
-                    <br/>
+                    <br />
                     {this.uploadFileButton("Changez de fichier")}
                 </section>
             )
         }
-        if(this.state.fileState === "UPLOADING") {
+        if (this.state.fileState === "UPLOADING") {
             return (
                 <section>
                     <figure className="image container is-128x128">
@@ -114,20 +160,20 @@ export default class UploadAFileModal extends Component {
                         className="progress is-primary"
                         value={this.state.uploadingProgress}
                         max="100">
-                            {this.state.uploadingProgress}%
+                        {this.state.uploadingProgress}%
                     </progress>
                     <p>Téléversement en cours {this.state.uploadingProgress}% ...</p>
                     <br />
                 </section>
             )
         }
-        if(this.state.fileState === "UPLOADED") {
+        if (this.state.fileState === "UPLOADED") {
             return (
                 <section>
                     <figure className="image container is-128x128">
                         <img alt="icône fichier uploadé" src={successfulUploadFileIcon} />
                     </figure>
-                    <br/>
+                    <br />
                     <h2 className="title">Vous avez terminé !</h2>
                     <p>Copiez le lien à transmettre à votre client</p>
                     <LinkWithCopyToClipboardButton link="https://file.octo.com/dqOtleC445" />

@@ -1,5 +1,5 @@
 variable env {}
-variable "application_name" {}
+variable application_name {}
 
 resource "aws_cognito_user_pool" "users" {
   name = "${var.application_name}-${var.env}"

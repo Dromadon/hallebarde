@@ -5,10 +5,15 @@ resource "aws_cognito_user_pool_client" "webapp" {
   supported_identity_providers = [ aws_cognito_identity_provider.google.provider_name ]
 
   allowed_oauth_flows = [
-    "implicit"]
+    "code"
+  ]
   allowed_oauth_flows_user_pool_client = true
   allowed_oauth_scopes = [
-    "${var.application_name}-${var.env}/api"]
+    "hallebarde-${var.env}/api",
+    "profile",
+    "openid",
+    "email"
+  ]
   callback_urls = [
     "http://localhost:3000/callback"]
 }

@@ -12,7 +12,9 @@ def when_asking_for_pre_signed_upload_url(context: Context):
         url='https://dev.api.bda.ninja/s3_presigned_upload_url',
         headers={
             'Authorization': context.exchange['upload_token']
-        })
+        },
+        params={'filename': 'a_filename'}
+    )
     context.pre_signed_upload_url_response = r
     assert HTTPStatus.OK == r.status_code, f'HTTP code received is {r.status_code} :('
 

@@ -56,7 +56,7 @@ class TestGetUploadPresignedUrl:
         mock_boto3.client.return_value = mock_client
 
         mock_exchange_repository.get_identifier_from_token.return_value = an_exchange.identifier
-        expected_filename = f'{an_exchange.identifier}/{upload_url_event["headers"]["filename"]}'
+        expected_filename = f'{an_exchange.identifier}/{upload_url_event["queryStringParameters"]["filename"]}'
 
         mock_file_exists.return_value = False
 

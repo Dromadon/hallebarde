@@ -29,3 +29,17 @@ resource "aws_lambda_permission" "s3_presigned_download_url_lambda_permission" {
 
   source_arn = "${aws_api_gateway_deployment.deployment.execution_arn}/*/s3_presigned_download_url"
 }
+
+module "cors_s3_download_url" {
+  source = "squidfunk/api-gateway-enable-cors/aws"
+  version = "0.3.1"
+
+  api_id = aws_api_gateway_rest_api.api.id
+  api_resource_id = aws_api_gateway_resource.s3_presigned_download_url.id
+
+  allow_methods = [
+    "GET"
+  ]
+
+  allow_origin = "*"
+}
