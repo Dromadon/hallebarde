@@ -1,6 +1,7 @@
 SHELL := /bin/bash
 .SHELLFLAGS = -e -c
 .ONESHELL:
+env := dev
 
 .DEFAULT_GOAL: help
 
@@ -14,27 +15,24 @@ help:
 plan_infra:
 	source ../conf.sh
 	source ../secret.conf.sh
-	for resource in $(TERRAFORM_RESOURCES)
-	do
-		./wrapper.sh plan dev $$resource
-	done;
+	cd environments/${env}
+	terragrunt plan-all --terragrunt-exclude-dir website
 
 build_infra:
 	source ../conf.sh
 	source ../secret.conf.sh
-	for resource in $(TERRAFORM_RESOURCES)
-	do
-		./wrapper.sh apply dev $$resource
-	done;
+	cd environments/${env}
+	terragrunt apply-all --terragrunt-non-interactive --terragrunt-exclude-dir website
 
 .PHONY: deploy_website
 deploy_website:
 	source ../conf.sh
 	source ../secret.conf.sh
-	./wrapper.sh apply dev website/
+	cd environments/${env}/website/ 
+	terragrunt apply --terragrunt-non-interactive
 
-lint:
-	for resource in $(TERRAFORM_RESOURCES)
+lint: lint_terragrunt
+	for resource in modules/*
 	do
 		$(MAKE) lint_infra_for AWS_RESOURCE=$$resource
 	done
@@ -43,6 +41,11 @@ lint_infra_for: check_resource
 	@echo -e "\033[35m 🚧 Validating TF files in deploy/$(AWS_RESOURCE)... \033[0m"
 	cd $$AWS_RESOURCE
 	TF_IN_AUTOMATION=true terraform init -input=false -backend=false && terraform validate
+
+lint_terragrunt:
+	@echo -e "\033[35m 🚧 Validating HCL files in environments... \033[0m"
+	cd environments
+	terragrunt hclfmt --terragrunt-check
 
 check_resource:
 	@[ "${AWS_RESOURCE}" ] || (echo "⚠️ AWS_RESOURCE is not set"; exit 1)

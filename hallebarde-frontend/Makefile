@@ -21,3 +21,4 @@ tests:
 .PHONY: tests-with-coverage  ## ✅ 📏 Run the unit tests and measure code coverage
 tests-with-coverage:
 	CI=true npm test -- --coverage
+

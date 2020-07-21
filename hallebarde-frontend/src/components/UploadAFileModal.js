@@ -4,6 +4,7 @@ import uploadFileIcon from "../assets/Picto_Cloud.png"
 import successfulUploadFileIcon from "../assets/Picto_DockSheet_valid.png"
 import LinkWithCopyToClipboardButton from "./LinkWithCopyToClipboardButton"
 import { Auth } from "aws-amplify";
+import backendConfig from '../backend/config'
 
 export default class UploadAFileModal extends Component {
 
@@ -55,7 +56,7 @@ export default class UploadAFileModal extends Component {
             // create exchange
             await axios({
                 method: 'post',
-                url: 'https://dev.api.bda.ninja/exchanges',
+                url: backendConfig.backend_url + '/exchanges',
                 headers: { Authorization: this.state.jwtToken }
             }).then(response => {
                 this.setState({ uploadToken: response.data.upload_token })
@@ -66,7 +67,7 @@ export default class UploadAFileModal extends Component {
             console.log(this.state.uploadToken)
             await axios({
                 method: 'get',
-                url: `https://dev.api.bda.ninja/s3_presigned_upload_url?filename=${this.state.selectedFile.name}`,
+                url: backendConfig.backend_url + `/s3_presigned_upload_url?filename=${this.state.selectedFile.name}`,
                 headers: { Authorization: this.state.uploadToken }
             }).then(response => {
                 this.setState({ uploadUrl: response.data.url })

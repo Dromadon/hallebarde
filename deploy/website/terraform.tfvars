@@ -1,1 +1,0 @@
-path_to_website_build = "../../hallebarde-frontend/build/"

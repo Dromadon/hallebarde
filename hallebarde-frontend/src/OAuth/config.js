@@ -1,13 +1,13 @@
 export default {
     Auth: {
         region: "eu-west-1",
-        userPoolId: "eu-west-1_v0laOwH0X",
-        userPoolWebClientId: "6h9vs34mtffltbbg16dughqomj",
+        userPoolId: process.env.REACT_APP_USER_POOL_ID,
+        userPoolWebClientId: process.env.REACT_APP_USER_POOL_WEB_CLIENT_ID,
         oauth: {
-            domain: "hallebarde-dev.auth.eu-west-1.amazoncognito.com",
+            domain: process.env.REACT_APP_OAUTH_DOMAIN,
             scope: ["email", "profile", "openid"],
-            redirectSignIn: "http://localhost:3000/callback",
-            redirectSignOut: "http://localhost:3000/logout",
+            redirectSignIn: process.env.REACT_APP_OAUTH_CALLBACK_URL,
+            redirectSignOut: process.env.REACT_APP_OAUTH_SIGNOUT_URL,
             responseType: "code",
         },
     },

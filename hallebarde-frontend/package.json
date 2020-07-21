@@ -11,6 +11,7 @@
     "aws-amplify-react": "^4.1.9",
     "axios": "^0.19.2",
     "bulma": "^0.8.2",
+    "env-cmd": "^10.1.0",
     "node-sass": "^4.14.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -18,8 +19,8 @@
     "websocket-extensions": "0.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "env-cmd react-scripts start",
+    "build": "env-cmd react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

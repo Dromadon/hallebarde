@@ -14,6 +14,8 @@ node_modules/
 *.tfstate
 *.tfstate.*
 
+**/.terragrunt-cache/
+
 *.zip
 app/package/*
 app/build/

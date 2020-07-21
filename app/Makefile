@@ -3,6 +3,9 @@ SHELL := /bin/bash
 .ONESHELL:
 
 .DEFAULT_GOAL: help
+.EXPORT_ALL_VARIABLES:
+
+env := dev
 
 .PHONY: help
 help:
@@ -25,7 +28,10 @@ unit_tests:
 
 .PHONY: func_tests  ## Run functional tests with behave
 func_tests:
-	source get-test-client-secrets.sh && \
+	echo "Getting end2end client secrets from TF output"
+	while read -r l; do
+	  export $$l
+	done < <(cd ../deploy/environments/${env}/cognito/ && terragrunt output | grep "end2end" | sed 's/ //g')
 	AWS_DEFAULT_REGION=eu-west-1 pipenv run behave tests/functional/features/
 
 .PHONY: lint  ## Run quality and security checks
