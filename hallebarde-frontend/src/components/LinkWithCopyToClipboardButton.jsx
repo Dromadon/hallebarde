@@ -11,7 +11,7 @@ export default class LinkWithCopyToClipboardButton extends Component {
   }
   copyContentOnClick = (event) => {
     navigator.clipboard
-      .writeText(event.currentTarget.textContent)
+      .writeText(this.state.link)
       .then(() => this.setState({ clicked: true }));
 
     setTimeout(() => {

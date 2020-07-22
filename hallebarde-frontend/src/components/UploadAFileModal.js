@@ -177,7 +177,7 @@ export default class UploadAFileModal extends Component {
                     <br />
                     <h2 className="title">Vous avez terminé !</h2>
                     <p>Copiez le lien à transmettre à votre client</p>
-                    <LinkWithCopyToClipboardButton link="https://file.octo.com/dqOtleC445" />
+                    <LinkWithCopyToClipboardButton link={"https://" + window.location.hostname + "/download?download_token=" + this.state.downloadToken} />
                     <br />
                 </section>
             )
