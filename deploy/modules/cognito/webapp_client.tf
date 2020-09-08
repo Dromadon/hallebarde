@@ -15,7 +15,7 @@ resource "aws_cognito_user_pool_client" "webapp" {
     "email"
   ]
   callback_urls = ["https://${var.env == "prod" ? "" : "${var.env}."}${var.route53_zone_name}/callback"]
-  logout_urls = ["https://${var.env == "prod" ? "" : "${var.env}."}${var.route53_zone_name}/signout"]
+  logout_urls   = ["https://${var.env == "prod" ? "" : "${var.env}."}${var.route53_zone_name}/signout"]
 }
 
 output "web_client_id" {

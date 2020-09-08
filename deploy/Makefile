@@ -31,16 +31,16 @@ deploy_website:
 	cd environments/${env}/website/ 
 	terragrunt apply --terragrunt-non-interactive
 
-lint: lint_terragrunt
+lint_terraform:
 	for resource in modules/*
 	do
 		$(MAKE) lint_infra_for AWS_RESOURCE=$$resource
 	done
 
 lint_infra_for: check_resource
-	@echo -e "\033[35m 🚧 Validating TF files in deploy/$(AWS_RESOURCE)... \033[0m"
+	@echo -e "\033[35m 🚧 Formating TF files in deploy/$(AWS_RESOURCE)... \033[0m"
 	cd $$AWS_RESOURCE
-	TF_IN_AUTOMATION=true terraform init -input=false -backend=false && terraform validate
+	terraform fmt
 
 lint_terragrunt:
 	@echo -e "\033[35m 🚧 Validating HCL files in environments... \033[0m"

@@ -15,7 +15,7 @@ resource "aws_cognito_user_pool_client" "local" {
     "email"
   ]
   callback_urls = ["http://localhost:3000/callback"]
-  logout_urls = ["http://localhost:3000/signout"]
+  logout_urls   = ["http://localhost:3000/signout"]
   count         = var.env == "prod" ? 0 : 1
 }
 

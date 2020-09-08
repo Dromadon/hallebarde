@@ -117,7 +117,7 @@ function Home(props) {
               authState={props.authState}
               signOut={props.signOut}
             />
-            <UploadAFileModal authState={props.authState} />
+            {props.authState === 'signedIn' && <UploadAFileModal authState={props.authState} />}
           </section>
         </div>
       </div>

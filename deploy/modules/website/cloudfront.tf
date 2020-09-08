@@ -6,9 +6,9 @@ resource "aws_cloudfront_distribution" "website_distribution" {
   origin {
     custom_origin_config {
       origin_protocol_policy = "http-only"
-      http_port = 80
-      origin_ssl_protocols = ["TLSv1.2"]
-      https_port = 443
+      http_port              = 80
+      origin_ssl_protocols   = ["TLSv1.2"]
+      https_port             = 443
     }
     domain_name = aws_s3_bucket.website.website_endpoint
     origin_id   = aws_cloudfront_origin_access_identity.website_access_identity.id
