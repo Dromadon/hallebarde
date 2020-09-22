@@ -4,6 +4,8 @@ SHELL := /bin/bash
 
 .DEFAULT_GOAL: help
 
+env := dev
+
 .PHONY: help
 help:
 	@echo "Please use 'make <target>' where <target> is one of"
@@ -22,3 +24,7 @@ tests:
 tests-with-coverage:
 	CI=true npm test -- --coverage
 
+.PHONY: build_website
+build_website:
+	./configure-environment.sh ${env}
+	npm run-script build

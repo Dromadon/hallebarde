@@ -20,7 +20,8 @@ package_backend:
 
 .PHONY: deploy_frontend
 deploy_frontend:
-	$(MAKE) --directory deploy/ deploy_website
+	$(MAKE) --directory hallebarde-frontend/ build_website env=${env}
+	$(MAKE) --directory deploy/ deploy_website env=${env}
 
 .PHONY: tests  ## Run unit & functional tests
 tests:

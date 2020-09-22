@@ -4,7 +4,7 @@ resource "aws_api_gateway_method" "revoke_exchange_delete" {
   http_method          = "DELETE"
   authorization        = "COGNITO_USER_POOLS"
   authorizer_id        = aws_api_gateway_authorizer.cognito_authorizer.id
-  authorization_scopes = ["${var.application_name}-${var.env}/api"]
+  authorization_scopes = ["hallebarde-${var.env}/api"]
 }
 
 resource "aws_api_gateway_integration" "revoke_exchange_integration" {

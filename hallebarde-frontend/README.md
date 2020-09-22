@@ -6,13 +6,21 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
-### `./configure-environment.sh local|dev`
+### `configure-environment.sh`
+As our website is statically hosted with S3, we must build it with hardcoded configuration (OAuth endpoints, 
+API endpoints, etc.). This script gets infrastructure configuration and puts it in `.env` file, which is 
+then automatically parsed by React.
 
-Gets infrastructure configuration and puts it in `.env` file, which is automatically parsed by React.
+It can be called with `./configure-environment.sh [local|dev|prod]`
 
+Call it with `local` to get client credentials valid for `localhost`: best for testing on your 
+computer with `npm start` after.
 
-Call it with `local` to get client credentials valid for `localhost`: best for testing on your computer with `npm start`.<br />
-Call it with an environment name like `dev` before a build for uploading the website to its target domain.
+Call it with environment name `dev` before a build for packaging the website with `dev` endpoints, before 
+uploading it to static hosting
+
+Call it with environment name `prod` before a build for packaging the website with `prod` endpoints, before 
+uploading it to static hosting
 
 This needs you to have effective AWS credentials, as it calls terragrunt to access the terraform outputs
 

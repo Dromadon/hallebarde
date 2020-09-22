@@ -1,8 +1,3 @@
-resource "aws_cognito_user_pool_domain" "main" {
-  domain       = "${var.application_name}-${var.env}"
-  user_pool_id = aws_cognito_user_pool.users.id
-}
-
 resource "aws_cognito_user_pool_client" "e2e" {
   name         = "${var.application_name}-${var.env}-end2end"
   user_pool_id = aws_cognito_user_pool.users.id
@@ -14,18 +9,6 @@ resource "aws_cognito_user_pool_client" "e2e" {
   allowed_oauth_scopes                 = aws_cognito_resource_server.resource.scope_identifiers
   callback_urls = [
   "http://localhost:3000/callback"]
-}
-
-resource "aws_cognito_resource_server" "resource" {
-  identifier = "${var.application_name}-${var.env}"
-  name       = "${var.application_name}-${var.env}"
-
-  scope {
-    scope_name        = "api"
-    scope_description = "full api access"
-  }
-
-  user_pool_id = aws_cognito_user_pool.users.id
 }
 
 output "end2end_client_id" {

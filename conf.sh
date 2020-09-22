@@ -1,3 +1,0 @@
-export TF_VAR_route53_zone_name="bda.ninja"
-export TF_VAR_google_oidc_application_client_id="274210205449-bend56f57m2gcu9an3q6dmv0atj3i7h1.apps.googleusercontent.com"
-export TF_VAR_application_name="hallebarde"

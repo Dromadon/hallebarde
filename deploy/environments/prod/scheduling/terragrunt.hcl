@@ -3,11 +3,11 @@ include {
 }
 
 terraform {
-  source = "${get_parent_terragrunt_dir()}/..//modules/api-gateway"
+  source = "${get_parent_terragrunt_dir()}/..//modules/scheduling"
 }
 
 dependencies {
-  paths = ["../lambda", "../domain", "../cognito"]
+  paths = ["../lambda"]
 }
 
 locals {

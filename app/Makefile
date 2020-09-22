@@ -30,6 +30,7 @@ unit_tests:
 func_tests:
 	echo "Getting end2end client secrets from TF output"
 	while read -r l; do
+	  echo $$l
 	  export $$l
 	done < <(cd ../deploy/environments/${env}/cognito/ && terragrunt output | grep "end2end" | sed 's/ //g')
 	AWS_DEFAULT_REGION=eu-west-1 pipenv run behave tests/functional/features/

@@ -15,7 +15,7 @@ def given_authenticated_on_cognito(context: Context):
     oauth = OAuth2Session(client=client)
 
     token = oauth.fetch_token(
-        token_url='https://hallebarde-dev.auth.eu-west-1.amazoncognito.com/oauth2/token',
+        token_url='https://dev-filetransfer.auth.eu-west-1.amazoncognito.com/oauth2/token',
         client_id=client_id,
         client_secret=client_secret
     )

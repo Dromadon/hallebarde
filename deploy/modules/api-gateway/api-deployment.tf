@@ -31,6 +31,7 @@ resource "aws_api_gateway_deployment" "deployment" {
 resource "aws_api_gateway_domain_name" "domain_name" {
   certificate_arn = data.aws_acm_certificate.cert.arn
   domain_name     = "${var.env == "prod" ? "" : "${var.env}."}api.${var.route53_zone_name}"
+  security_policy = "TLS_1_2"
 }
 
 resource "aws_route53_record" "example" {

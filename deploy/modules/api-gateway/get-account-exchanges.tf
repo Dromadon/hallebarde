@@ -4,7 +4,7 @@ resource "aws_api_gateway_method" "account_exchanges_get" {
   http_method          = "GET"
   authorization        = "COGNITO_USER_POOLS"
   authorizer_id        = aws_api_gateway_authorizer.cognito_authorizer.id
-  authorization_scopes = ["${var.application_name}-${var.env}/api"]
+  authorization_scopes = ["hallebarde-${var.env}/api"]
 }
 
 resource "aws_api_gateway_integration" "account_exchanges_integration" {

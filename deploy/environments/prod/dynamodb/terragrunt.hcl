@@ -3,11 +3,7 @@ include {
 }
 
 terraform {
-  source = "${get_parent_terragrunt_dir()}/..//modules/api-gateway"
-}
-
-dependencies {
-  paths = ["../lambda", "../domain", "../cognito"]
+  source = "${get_parent_terragrunt_dir()}/..//modules/dynamodb"
 }
 
 locals {

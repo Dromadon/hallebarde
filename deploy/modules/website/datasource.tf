@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 data aws_acm_certificate "cert" {
-  domain      = "${var.env}.${var.route53_zone_name}"
+  domain      = "${var.env == "prod" ? "" : "${var.env}."}${var.route53_zone_name}"
   types       = ["AMAZON_ISSUED"]
   statuses    = ["ISSUED"]
   most_recent = true

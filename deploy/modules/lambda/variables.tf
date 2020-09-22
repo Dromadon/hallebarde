@@ -6,3 +6,4 @@ variable "python_runtime" {
 variable "env" {}
 variable "application_name" {}
 variable "package_path" {}
+variable "route53_zone_name" {}

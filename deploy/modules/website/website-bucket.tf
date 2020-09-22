@@ -1,11 +1,18 @@
 resource "aws_s3_bucket" "logs" {
-  bucket = "hallebarde-${var.env}-website-logs"
+  bucket = "${var.application_name}-${var.env}-website-logs"
   acl    = "log-delivery-write"
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
 }
 
 resource "aws_s3_bucket" "website" {
-  bucket = "hallebarde-${var.env}-website"
-  acl    = "public-read"
+  bucket = "${var.application_name}-${var.env}-website"
 
   logging {
     target_bucket = aws_s3_bucket.logs.bucket
@@ -14,9 +21,12 @@ resource "aws_s3_bucket" "website" {
 
   force_destroy = true
 
-  website {
-    index_document = "index.html"
-    error_document = "index.html"
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
   }
 
   policy = <<POLICY
@@ -28,8 +38,8 @@ resource "aws_s3_bucket" "website" {
       "Effect":"Allow",
       "Principal": {
           "AWS": "${aws_cloudfront_origin_access_identity.website_access_identity.iam_arn}"},
-      "Action":["s3:GetObject"],
-      "Resource":["arn:aws:s3:::hallebarde-${var.env}-website/*"]
+      "Action":["s3:GetObject", "s3:ListBucket"],
+      "Resource":["arn:aws:s3:::${var.application_name}-${var.env}-website/*", "arn:aws:s3:::${var.application_name}-${var.env}-website"]
     }
   ]
 }

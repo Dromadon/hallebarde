@@ -13,23 +13,24 @@ help:
 	@grep -E '^\.PHONY: [a-zA-Z_-]+ .*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = "(: |##)"}; {printf "\033[36m%-30s\033[0m %s\n", $$2, $$3}'
 
 plan_infra:
-	source ../conf.sh
 	source ../secret.conf.sh
 	cd environments/${env}
 	terragrunt plan-all --terragrunt-exclude-dir website
 
 build_infra:
-	source ../conf.sh
 	source ../secret.conf.sh
 	cd environments/${env}
 	terragrunt apply-all --terragrunt-non-interactive --terragrunt-exclude-dir website
 
+destroy_infra:
+	source ../secret.conf.sh
+	cd environments/${env} && terragrunt destroy-all --terragrunt-non-interactive
+
 .PHONY: deploy_website
 deploy_website:
-	source ../conf.sh
 	source ../secret.conf.sh
 	cd environments/${env}/website/ 
-	terragrunt apply --terragrunt-non-interactive
+	terragrunt apply --terragrunt-non-interactive -auto-approve
 
 lint_terraform:
 	for resource in modules/*

@@ -15,4 +15,4 @@ def get_allowed_origin() -> str:
     if config.ENVIRONMENT == 'dev':
         return "*"
     else:
-        return config.WEBSITE_HOSTNAME
+        return 'https://'+config.WEBSITE_HOSTNAME

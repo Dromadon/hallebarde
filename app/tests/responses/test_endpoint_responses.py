@@ -35,7 +35,7 @@ class TestEndpointResponses:
     @patch('hallebarde.responses.endpoint_responses.config')
     def test_get_allowed_origin_should_return_website_hostname_when_env_is_not_dev(self, mock_config):
         # Given
-        website_hostname = 'https://ourwebsite'
+        website_hostname = 'ourwebsite'
         mock_config.ENVIRONMENT = 'prod'
         mock_config.WEBSITE_HOSTNAME = website_hostname
 
@@ -43,4 +43,4 @@ class TestEndpointResponses:
         origin = endpoint_responses.get_allowed_origin()
 
         # Then
-        assert origin == website_hostname
+        assert origin == 'https://'+website_hostname

@@ -18,20 +18,20 @@ remote_state {
   }
 
   config = {
-    bucket         = "${local.application_name}"
+    bucket         = "hallebarde-backend"
     key            = "${path_relative_to_include()}"
     region         = "eu-west-1"
-    dynamodb_table = "${local.application_name}-backend-lock"
+    dynamodb_table = "hallebarde-backend-lock"
   }
 }
 
 inputs = {
-  route53_zone_name                 = "bda.ninja"
+  route53_zone_name                 = "filetransfer.beta.octo.tools"
   application_name                  = "${local.application_name}"
   google_oidc_application_client_id = "274210205449-bend56f57m2gcu9an3q6dmv0atj3i7h1.apps.googleusercontent.com"
   // oidc client secret
 }
 
 locals {
-  application_name = "hallebarde"
+  application_name = "filetransfer"
 }

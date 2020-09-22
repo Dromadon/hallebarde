@@ -25,7 +25,7 @@ export default class Download extends Component {
       })
       .then(({ data }) => {
         this.setState({'isLoading': false})
-        window.open(data)
+        window.open(data, '_self')
       });
   };
 

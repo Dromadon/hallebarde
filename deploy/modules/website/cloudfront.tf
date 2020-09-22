@@ -4,20 +4,23 @@ resource "aws_cloudfront_origin_access_identity" "website_access_identity" {
 
 resource "aws_cloudfront_distribution" "website_distribution" {
   origin {
-    custom_origin_config {
-      origin_protocol_policy = "http-only"
-      http_port              = 80
-      origin_ssl_protocols   = ["TLSv1.2"]
-      https_port             = 443
-    }
-    domain_name = aws_s3_bucket.website.website_endpoint
+    domain_name = aws_s3_bucket.website.bucket_regional_domain_name
     origin_id   = aws_cloudfront_origin_access_identity.website_access_identity.id
+    s3_origin_config {
+      origin_access_identity = aws_cloudfront_origin_access_identity.website_access_identity.cloudfront_access_identity_path
+    }
   }
   aliases = ["${var.env == "prod" ? "" : "${var.env}."}${var.route53_zone_name}"]
 
   enabled             = true
   is_ipv6_enabled     = true
   default_root_object = "index.html"
+
+  custom_error_response {
+    error_code         = 404
+    response_code      = 200
+    response_page_path = "/index.html"
+  }
 
   logging_config {
     include_cookies = false
@@ -40,7 +43,7 @@ resource "aws_cloudfront_distribution" "website_distribution" {
 
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
-    default_ttl            = 3600
+    default_ttl            = 360
     max_ttl                = 86400
   }
 
@@ -52,8 +55,9 @@ resource "aws_cloudfront_distribution" "website_distribution" {
   }
 
   viewer_certificate {
-    acm_certificate_arn = data.aws_acm_certificate.cert.arn
-    ssl_support_method  = "sni-only"
+    acm_certificate_arn      = data.aws_acm_certificate.cert.arn
+    ssl_support_method       = "sni-only"
+    minimum_protocol_version = "TLSv1.2_2018"
   }
 
   tags = {

@@ -7,7 +7,7 @@ from behave.runner import Context
 
 @given('I create an exchange')
 def given_create_an_exchange(context: Context):
-    r = requests.post('https://dev.api.bda.ninja/exchanges',
+    r = requests.post('https://dev.api.filetransfer.beta.octo.tools/exchanges',
                       headers={
                           'Authorization': context.authorization_token
                       })
@@ -16,7 +16,7 @@ def given_create_an_exchange(context: Context):
 
 @when('I ask for all my exchanges')
 def when_getting_all_exchanges(context: Context):
-    r = requests.get('https://dev.api.bda.ninja/exchanges',
+    r = requests.get('https://dev.api.filetransfer.beta.octo.tools/exchanges',
                      headers={
                          'Authorization': context.authorization_token
                      })
@@ -26,7 +26,7 @@ def when_getting_all_exchanges(context: Context):
 @when('I revoke this exchange')
 def when_revoking_an_exchange(context: Context):
     requests.delete(
-        url='https://dev.api.bda.ninja/exchanges',
+        url='https://dev.api.filetransfer.beta.octo.tools/exchanges',
         headers={
             'Authorization': context.authorization_token,
             'exchange_identifier': context.exchange['identifier']

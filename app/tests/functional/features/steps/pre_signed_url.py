@@ -9,7 +9,7 @@ from behave.runner import Context
 @when('I ask for a presigned upload url with this exchange upload token')
 def when_asking_for_pre_signed_upload_url(context: Context):
     r = requests.get(
-        url='https://dev.api.bda.ninja/s3_presigned_upload_url',
+        url='https://dev.api.filetransfer.beta.octo.tools/s3_presigned_upload_url',
         headers={
             'Authorization': context.exchange['upload_token']
         },
@@ -33,7 +33,7 @@ def then_a_file_can_be_uploaded(context: Context):
 @then('I ask for a presigned download url with this exchange download token')
 def when_asking_for_pre_signed_download_url(context: Context):
     r = requests.get(
-        url='https://dev.api.bda.ninja/s3_presigned_download_url',
+        url='https://dev.api.filetransfer.beta.octo.tools/s3_presigned_download_url',
         headers={
             'Authorization': context.exchange['download_token']
         })

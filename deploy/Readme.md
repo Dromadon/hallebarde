@@ -17,6 +17,16 @@ All technical stacks listed in [main Readme.md](../README.md) for packaging back
 ### One-shot activities
 #### Creating the OIDC application
 You need to create an OIDC application in your provider, which will be used by Hallebarde to authenticate calls. 
+
+For this, you can provide to your OIDC application:
+ - Authorized javascript origins: 
+   - `https://[your app name].auth.eu-west-1.amazoncognito.com` for production environment
+   - `https://dev-[your app name].auth.eu-west-1.amazoncognito.com` for dev environment
+   - `http://localhost:3000` for local development
+ - Redirect URI:
+   - `https://[your app name].auth.eu-west-1.amazoncognito.com/oauth2/idpresponse` for production environment
+   - `https://dev-[your app name].auth.eu-west-1.amazoncognito.com/oauth2/idpresponse` for dev and local environment
+
 We only support Google OIDC today, so you should end with:
  - an id looking like 
 `274210205449-bend56f57m2gcu9an3q6dmv0atj3i7h1.apps.googleusercontent.com` that you will insert in the 
@@ -29,7 +39,8 @@ Hallebarde will use 2 subdomains : One for serving the web application, and one 
 
 If `filetransfer.myfirm.com` is the base domain you will dedicate to Hallebarde:
  - Create a Route53 Zone for the domain `filetransfer.myfirm.com`
- - Insert `filetransfer.myfirm.com` in the `TF_VAR_route53_zone_name` var in `conf.sh`
+ - Insert `filetransfer.myfirm.com` in the `route53_zone_name` var in 
+ [environments/terragrunt.hcl](environments/terragrunt.hcl)
  
 Hallebarde will spontaneously serve the web app on `filetransfer.myfirm.com` and expose the api on 
 `api.filetransfer.myfirm.com` <br />
