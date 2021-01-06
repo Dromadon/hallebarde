@@ -9,7 +9,7 @@
     "@testing-library/user-event": "^7.2.1",
     "aws-amplify": "^3.0.10",
     "aws-amplify-react": "^4.1.9",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bulma": "^0.8.2",
     "env-cmd": "^10.1.0",
     "node-sass": "^4.14.0",
